@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import TypeAnimationStudent from "@/components/user/TypeAnimationUser";
 import Link from "next/link";
 import axios from "axios";
+import { useSession, signIn} from "next-auth/react";
 
 const Signin = () => {
   const router = useRouter();
@@ -22,8 +23,6 @@ const Signin = () => {
 
       console.log(res.data);
       router.push("/");
-      
-      
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -37,6 +36,25 @@ const Signin = () => {
             <h1 className="text-center pt-0 md:pt-4 font-sans text-2xl md:text-3xl md:font-semi-bold">
               Welcome back
             </h1>
+            <div className="flex w-full gap-1 mt-3 items-center justify-center">
+              <Button
+                className="space-x-2 border border-black/10 bg-transparent "
+                variant={"secondary"}
+                onClick={() => signIn()}
+              >
+                <span>Google</span>
+                <img src="google.svg" alt="" className="w-4" />
+              </Button>
+              <Button
+                className="space-x-2 border border-black/10 bg-transparent"
+                variant={"secondary"}
+              >
+                <span>GitHub</span>
+                <img src="github.svg" alt="" className="w-5" />
+              </Button>
+            </div>
+            <br />
+            <hr />
             <div className="flex flex-col px-4 pt-6">
               <label htmlFor="username">email</label>
               <input
@@ -66,7 +84,7 @@ const Signin = () => {
                   Don't have an account?
                 </Link>
                 <Button
-                  className="w-72 bg-[#7b2cbf] rounded-md text-white px-3 py-1"
+                  className="w-72 bg-gradient-to-r from-[#7b2cbf] to-indigo-400 rounded-md text-white px-3 py-1"
                   onClick={submitHandler}
                 >
                   Sign in

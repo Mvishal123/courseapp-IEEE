@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import UserHeader from "@/components/Header";
-import RecoilProvider from "@/components/RecoilProvider";
+import RecoilProvider from "@/components/providers/RecoilProvider";
+import AuthProvider from "@/components/providers/SessionProvider";
 import { InitUser } from "@/components/InitUser";
 
 export const metadata: Metadata = {
@@ -15,14 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <RecoilProvider>
-        <body>
-          <InitUser />
-          <UserHeader />
-          {children}
-        </body>
-      </RecoilProvider>
-    </html>
+    <AuthProvider >
+      <html lang="en">
+        <RecoilProvider>
+          <body>
+            <InitUser />
+            <UserHeader />
+            {children}
+          </body>
+        </RecoilProvider>
+      </html>
+    </AuthProvider>
   );
 }
