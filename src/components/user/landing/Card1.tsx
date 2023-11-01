@@ -13,10 +13,10 @@ const Card1 = () => {
         }}
       >
         <div className="pl-6 pt-10">
-          <div className="w-1/2 text-3xl font-extrabold text-slate-800">
+          <div className="w-1/2 text-xl lg:text-3xl font-extrabold text-slate-800">
             <h1>Still confused about your career?</h1>
             <h1>
-              Start learning from our <br />
+              Start learning from our
               courses
             </h1>
           </div>

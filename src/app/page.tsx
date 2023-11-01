@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import { InitUser } from "@/components/InitUser";
 import Companies from "@/components/user/Companies";
 import CourseSlider from "@/components/user/CourseSlider";
@@ -17,6 +18,12 @@ const index = () => {
       </div>
       <br />
       <Card1 />
+      {/* top categories */}
+      {/* testimonials */}
+      {/* get started as a teacher */}
+      <div className="pt-8">
+        <Footer />
+      </div>
     </div>
   );
 };
