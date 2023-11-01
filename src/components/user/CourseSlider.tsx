@@ -62,7 +62,7 @@ function Coursecard() {
           <ChevronLeft size={40} id="slideLeft" onClick={slideLeft} />
         </div>
         <div
-          className="flex overflow-x-scroll scroll-smooth scrollbar-none container"
+          className="flex overflow-x-scroll scroll-smooth container no-scrollbar"
           id="slider"
         >
           {courses.map((course, i) => {

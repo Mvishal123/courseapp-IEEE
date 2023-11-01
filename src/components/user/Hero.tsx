@@ -12,7 +12,7 @@ const HeroUser = () => {
             <p className="text-slate-600 text-xl md:pt-3">spend around 30 minutes a day skyrocket your career</p>
           </div>
           <div className="flex justify-center items-">
-            <img src="/Teacher.png" alt="teacher" className="md:h-[400px] h-[200px] mt-10 md:m-0" />
+            <img src="/landing/Teacher.png" alt="teacher" className="md:h-[400px] h-[200px] mt-10 md:m-0" />
           </div>
         </div>
       </div>
