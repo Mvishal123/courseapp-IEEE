@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useRouter } from "next/navigation";
 
 import { ChevronDownIcon, Menu } from "lucide-react";
@@ -14,9 +14,8 @@ import { useEffect } from "react";
 function UserHeader() {
   const router = useRouter();
 
-
   return (
-    <header className="absolute container top-0 w-full px-4 md:px-6 lg:px-8 py-5 flex justify-between items-center backdrop:blur-md border-b/10">
+    <header className="py-5 flex justify-between items-center w-full container">
       <MenuHeader />
       <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer">
         Skill<span className="text-[#7b2cbf]">Sphere</span>

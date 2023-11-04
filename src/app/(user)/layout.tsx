@@ -1,4 +1,4 @@
-import UserHeader from "@/components/Header";
+import UserHeader from "@/components/UserHeader";
 
 export default function RootLayout({
   children,
@@ -6,8 +6,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <UserHeader />
+    <div className="">
+      <div className="bg-[#f1f5f9] ">
+        <UserHeader />
+      </div>
       <div>{children}</div>
     </div>
   );
