@@ -7,7 +7,7 @@ const StartTeaching = () => {
   return (
     <div
       className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 p-[2.5px] rounded-full w-full gap-6"
-      onClick={() => router.push("/admin")}
+      onClick={() => router.push("/teacher")}
     >
       <div className="bg-white rounded-full px-2 hover:bg-transparent hover:text-white font-bold cursor-pointer text-center">
         <p>Start teaching</p>

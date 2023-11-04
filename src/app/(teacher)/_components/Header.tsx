@@ -55,16 +55,17 @@ function UserHeader() {
         ))}
       </div>
       <div>
-        <Button className="flex gap-2 " variant={"secondary"}>
+        <Button
+          className="flex gap-2 "
+          variant={"ghost"}
+          onClick={() => router.push("/")}
+        >
           <span>Exit</span>
           <LogOut />
         </Button>
       </div>
 
       <div className="flex items-center gap-4">
-        <div>
-          <Cart />
-        </div>
         <Profilebutton />
       </div>
     </header>
