@@ -21,7 +21,6 @@ export default function RootLayout({
         <RecoilProvider>
           <body>
             <InitUser />
-            <UserHeader />
             {children}
           </body>
         </RecoilProvider>

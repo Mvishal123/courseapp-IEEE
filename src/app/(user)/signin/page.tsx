@@ -94,7 +94,7 @@ const Signin = () => {
           </div>
         </div>
       </section>
-      <section className="relative flex justify-start items-center order-first md:order-last h-20 md:h-full pt-6 md:p-0">
+      <section className="relative flex justify-start items-center md:order-last h-20 md:h-full p-0">
         <TypeAnimationStudent />
       </section>
     </main>

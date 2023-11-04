@@ -18,7 +18,7 @@ function UserHeader() {
   return (
     <header className="absolute container top-0 w-full px-4 md:px-6 lg:px-8 py-5 flex justify-between items-center backdrop:blur-md border-b/10">
       <MenuHeader />
-      <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer">
+      <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer" onClick={() => router.push("/")}>
         Skill<span className="text-[#7b2cbf]">Sphere</span>
       </h1>
 
