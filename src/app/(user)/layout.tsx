@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <div className="bg-[#f1f5f9] ">
+      <div className="bg-[#ffffff] ">
         <UserHeader />
       </div>
       <div>{children}</div>

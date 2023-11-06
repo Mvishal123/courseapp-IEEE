@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import UserHeader from "@/components/Header";
 import RecoilProvider from "@/components/providers/RecoilProvider";
 import AuthProvider from "@/components/providers/SessionProvider";
 import { InitUser } from "@/components/InitUser";
+import ToastProvider from "@/components/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,10 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider >
+    <AuthProvider>
       <html lang="en">
         <RecoilProvider>
           <body>
+            <ToastProvider />
             <InitUser />
             {children}
           </body>

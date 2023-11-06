@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import TypeAnimationStudent from "@/components/user/TypeAnimationUser";
 import Link from "next/link";
 import axios from "axios";
-import { useSession, signIn} from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const Signin = () => {
   const router = useRouter();
@@ -16,12 +17,15 @@ const Signin = () => {
   const submitHandler = async () => {
     try {
       // console.log(username, password);
-      const res = await axios.post("api/user/signin", {
-        email,
-        password,
-      });
-
-      console.log(res.data);
+      if (email && password) {
+        const res = await axios.post("api/user/signin", {
+          email,
+          password,
+        });
+      } else {
+        await signIn();
+      }
+      toast.success("Login successfull");
       router.push("/");
     } catch (error: any) {
       throw new Error(error.message);
@@ -40,7 +44,7 @@ const Signin = () => {
               <Button
                 className="space-x-2 border border-black/10 bg-transparent "
                 variant={"secondary"}
-                onClick={() => signIn()}
+                onClick={submitHandler}
               >
                 <span>Google</span>
                 <img src="google.svg" alt="" className="w-4" />

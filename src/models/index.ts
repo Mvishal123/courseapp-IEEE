@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
 
 const courseSchema = new mongoose.Schema({
     title: String,
+    category: String,
     description: String,
     price: String,
     image: String,
