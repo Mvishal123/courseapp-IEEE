@@ -43,11 +43,15 @@ function UserHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="py-5 flex justify-between items-center">
-      <MenuHeader />
-      <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer">
-        Skill<span className="text-[#7b2cbf]">Sphere</span>
-      </h1>
+    <header className="py-5 flex items-center px-6 justify-between container">
+      <div className="md:hidden">
+        <MenuHeader />
+      </div>
+      <div>
+        <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer">
+          Skill<span className="text-[#7b2cbf]">Sphere</span>
+        </h1>
+      </div>
 
       <div className="hidden lg:flex justify-center items-center gap-6">
         {routes.map((route) => (
@@ -61,7 +65,7 @@ function UserHeader() {
           onClick={() => router.push("/")}
         >
           <span>Exit</span>
-          <LogOut />
+          <LogOut className="w-4 h-4" />
         </Button>
       </div>
 
