@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { connectDb } from "../../../lib/db";
 import { Course } from "@/models/index";
-import mongoose from "mongoose";
 
 
 

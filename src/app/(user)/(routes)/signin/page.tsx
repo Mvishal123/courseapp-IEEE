@@ -7,9 +7,11 @@ import Link from "next/link";
 import axios from "axios";
 import { useSession, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import { saveUserDb } from "@/helper/saveUserDb";
 
 const Signin = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +26,11 @@ const Signin = () => {
         });
       } else {
         await signIn();
+        console.log("inside");
       }
+      console.log("outside");
+
+      await saveUserDb(session?.user);
       toast.success("Login successfull");
       router.push("/");
     } catch (error: any) {

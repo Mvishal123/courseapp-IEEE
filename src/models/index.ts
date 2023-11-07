@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Email from "next-auth/providers/email";
 
 // Schema
 const adminSchema = new mongoose.Schema({
@@ -13,6 +14,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
+    profileImage: String,
     cart: [{type: mongoose.Schema.Types.ObjectId, ref:"Course"}],
     mycourses:  [{type: mongoose.Schema.Types.ObjectId, ref:"Course"}],
     isVerified: Boolean,
@@ -33,7 +35,7 @@ const courseSchema = new mongoose.Schema({
     level: String,
     reviews: [String],
     published: Boolean,
-    adminId: mongoose.Schema.Types.ObjectId
+    userId: String
 })
 
 // Models
