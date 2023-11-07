@@ -56,9 +56,11 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
   return (
     <div>
       <div className="w-full bg-slate-100 rounded-lg px-4 py-2">
-        <div className="flex justify-between" onClick={handleEdit}>
+        <div className="flex justify-between">
           <h1 className="text-lg">Course title</h1>
-          <span
+          <Button size="sm"
+          variant={"ghost"}
+            onClick={handleEdit}
             className={cn(
               "flex items-center text-sm cursor-pointer",
               edit && "text-muted-foreground"
@@ -66,7 +68,7 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
           >
             <PencilIcon className="h-4 w-4 mr-2" />
             Edit title
-          </span>
+          </Button>
         </div>
         <div className="mt-4 ">
           {!edit && <div className="font-bold">{initialValue}</div>}

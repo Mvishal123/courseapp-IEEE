@@ -11,15 +11,16 @@ export async function PATCH(
   try {
     const { courseId } = params;
     console.log("[UPDATE]", courseId);
-    
+
     const data = await req.json();
     console.log(data);
-    
-    const course = await Course.findByIdAndUpdate(courseId, { title: data.title });
+
+    const course = await Course.findById(courseId);
     if (!course) {
       return NextResponse.json("Course not found", { status: 404 });
     }
-
+    course.set(data);
+    await course.save();
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(error.message, { status: 500 });

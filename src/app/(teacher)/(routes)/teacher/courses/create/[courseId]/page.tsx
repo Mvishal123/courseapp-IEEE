@@ -1,6 +1,7 @@
 import { connectDb } from "@/lib/db";
 import { Course } from "@/models";
 import TitleForm from "../_components/titleForm";
+import DescriptionForm from "../_components/descriprionForm";
 
 connectDb();
 
@@ -32,8 +33,15 @@ const CourseCreatePage = async ({
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 mt-12">
-          <div>
-              <TitleForm initialValue={`${course.title}`} courseId={`${course._id}`}/>
+          <div className="flex flex-col gap-10">
+            <TitleForm
+              initialValue={`${course.title}`}
+              courseId={`${course._id}`}
+            />
+            <DescriptionForm
+              initialValue={`${course.description}`}
+              courseId={`${course._id}`}
+            />
           </div>
         </div>
       </div>
