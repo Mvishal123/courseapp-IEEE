@@ -2,6 +2,7 @@ import { connectDb } from "@/lib/db";
 import { Course } from "@/models";
 import TitleForm from "../_components/titleForm";
 import DescriptionForm from "../_components/descriprionForm";
+import ImageForm from "../_components/imageForm";
 
 connectDb();
 
@@ -24,7 +25,7 @@ const CourseCreatePage = async ({
   const completed = tasks.filter(Boolean).length;
 
   return (
-    <div>
+    <div className="">
       <div className="container pt-6">
         <div>
           <h1 className="text-4xl font-bold">Create a new course</h1>
@@ -40,6 +41,10 @@ const CourseCreatePage = async ({
             />
             <DescriptionForm
               initialValue={`${course.description}`}
+              courseId={`${course._id}`}
+            />
+            <ImageForm
+              initialValue={`${course.image}`}
               courseId={`${course._id}`}
             />
           </div>

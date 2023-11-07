@@ -58,8 +58,9 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
       <div className="w-full bg-slate-100 rounded-lg px-4 py-2">
         <div className="flex justify-between">
           <h1 className="text-lg">Course title</h1>
-          <Button size="sm"
-          variant={"ghost"}
+          <Button
+            size="sm"
+            variant={"ghost"}
             onClick={handleEdit}
             className={cn(
               "flex items-center text-sm cursor-pointer",

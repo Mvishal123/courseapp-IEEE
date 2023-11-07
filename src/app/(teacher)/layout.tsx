@@ -7,7 +7,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <div className="border-b">
         <Header />
       </div>
-      <div>{children}</div>
+      <div className="p-6">{children}</div>
     </div>
   );
 };
