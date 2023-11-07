@@ -7,7 +7,6 @@ import Link from "next/link";
 import axios from "axios";
 import { useSession, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
-import { saveUserDb } from "@/helper/saveUserDb";
 
 const Signin = () => {
   const router = useRouter();
@@ -30,7 +29,6 @@ const Signin = () => {
       }
       console.log("outside");
 
-      await saveUserDb(session?.user);
       toast.success("Login successfull");
       router.push("/");
     } catch (error: any) {
@@ -50,7 +48,9 @@ const Signin = () => {
               <Button
                 className="space-x-2 border border-black/10 bg-transparent "
                 variant={"secondary"}
-                onClick={submitHandler}
+                onClick={async () => {
+                  await signIn("google");
+                }}
               >
                 <span>Google</span>
                 <img src="google.svg" alt="" className="w-4" />

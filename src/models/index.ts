@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Email from "next-auth/providers/email";
 
 // Schema
 const adminSchema = new mongoose.Schema({
@@ -39,6 +38,6 @@ const courseSchema = new mongoose.Schema({
 })
 
 // Models
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
+export const User = mongoose.models.User ||  mongoose.model("User", userSchema);
 export const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
 export const Course = mongoose.models.Course || mongoose.model("Course", courseSchema)
