@@ -6,8 +6,9 @@ import { User } from "@/models";
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import bcrypt from "bcryptjs";
+import { NextAuthOptions } from "next-auth";
 
-const handler = NextAuth({
+const handler: NextAuthOptions = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -43,6 +44,7 @@ const handler = NextAuth({
       },
     }),
   ],
+
   session: {
     strategy: "jwt",
   },
@@ -79,4 +81,4 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, handler};
