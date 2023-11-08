@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     if (user) {
       return NextResponse.json(
         {
-          message: "Try a different username or email",
+          message: "Account already exists",
         },
         { status: 409 }
       );
@@ -31,16 +31,16 @@ export async function POST(req: NextRequest) {
 
     await newUser.save();
 
-    const tokenData = {
-      username: newUser.username,
-      email: newUser.email,
-      userId: newUser._id,
-    };
+    // const tokenData = {
+    //   username: newUser.username,
+    //   email: newUser.email,
+    //   userId: newUser._id,
+    // };
 
-    const token = jwt.sign(tokenData, process.env.JWT_SECRET!, {
-      expiresIn: "1d",
-    });
-    console.log("signup -> tokendata ---> ", tokenData);
+    // const token = jwt.sign(tokenData, process.env.JWT_SECRET!, {
+    //   expiresIn: "1d",
+    // });
+    // console.log("signup -> tokendata ---> ", tokenData);
 
     const response = NextResponse.json(
       {
@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
-    response.cookies.set("tokenss", token, {
-      httpOnly: true,
-    });
+    // response.cookies.set("tokenss", token, {
+    //   httpOnly: true,
+    // });
 
     return response;
   } catch (error: any) {

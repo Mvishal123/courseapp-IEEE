@@ -8,7 +8,6 @@ export const getCookieData = (req: NextRequest) => {
     // console.log("Tokendata -> ", decodedTokenData);
 
     return decodedTokenData;
-    
   } catch (error: any) {
     console.log("Error in decoding token -> ", error.message);
   }

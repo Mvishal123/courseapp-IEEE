@@ -1,16 +1,18 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import TypeAnimationStudent from "@/components/user/TypeAnimationUser";
 import Link from "next/link";
-import axios from "axios";
+// import axios from "axios"
+
 import { useSession, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 
 const Signin = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  if (session) router.push("/");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,18 +21,10 @@ const Signin = () => {
     try {
       // console.log(username, password);
       if (email && password) {
-        const res = await axios.post("api/user/signin", {
-          email,
-          password,
-        });
-      } else {
-        await signIn();
-        console.log("inside");
+        signIn("credentials", { email, password });
+        toast.success("Login successfull");
+        router.push("/");
       }
-      console.log("outside");
-
-      toast.success("Login successfull");
-      router.push("/");
     } catch (error: any) {
       throw new Error(error.message);
     }

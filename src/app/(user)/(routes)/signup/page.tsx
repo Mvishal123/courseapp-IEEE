@@ -5,6 +5,7 @@ import TypeAnimationStudent from "@/components/user/TypeAnimationUser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const router = useRouter();
@@ -15,7 +16,6 @@ const Signup = () => {
 
   const submitHandler = async () => {
     try {
-      // console.log(username, password);
       const res = await axios.post("api/user/signup", {
         username,
         password,
@@ -23,13 +23,13 @@ const Signup = () => {
       });
 
       if (!res.data) {
-        console.log("error");
+        toast.error("An error occured");
       } else {
-        console.log("Success");
-        router.push("/")
+        toast.success("Success");
+        router.push("/signin");
       }
     } catch (error: any) {
-      throw new Error(error.message);
+      toast.error(error.response.data.message + ". Try a different username");
     }
   };
 

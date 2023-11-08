@@ -1,13 +1,11 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { User } from "@/models";
+
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
-import { User } from "@/models";
-import { Profile } from "next-auth";
-
-interface profileImage extends Profile {
-  picture: string;
-}
+import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
   providers: [
@@ -15,8 +13,41 @@ const handler = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-  ],
+    //@ts-ignore
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "username", type: "text", placeholder: "johndoe" },
+        password: { label: "password", type: "password", placeholder: "..." },
+        email: { label: "email", type: "email", placeholder: "name@gmail.com" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email && !credentials?.password) return false;
 
+        await connectDb();
+        console.log(credentials);
+
+        if (!credentials) return false;
+
+        const user = await User.findOne({ email: credentials?.email });
+        if (!user) return false;
+
+        const isPasswordValid = bcrypt.compare(
+          credentials?.password,
+          user.password
+        );
+
+        if(!isPasswordValid) return false;
+
+        return user;
+      },
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.JWT_SECRET!,
+  debug: process.env.NODE_ENV === "development",
   callbacks: {
     async session({ session }) {
       try {
