@@ -37,7 +37,7 @@ const handler = NextAuth({
           user.password
         );
 
-        if(!isPasswordValid) return false;
+        if (!isPasswordValid) return false;
 
         return user;
       },

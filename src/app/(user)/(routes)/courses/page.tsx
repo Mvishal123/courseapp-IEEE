@@ -31,7 +31,7 @@ const page = async () => {
   const courses: CourseData[] = await getCourses();
 
   return (
-    <main className="pt-32 container">
+    <main className="pt-20 container">
       <h1 className="text-4xl font-extrabold text-center">All courses</h1>
       <br />
       <hr />
