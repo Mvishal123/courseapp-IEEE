@@ -15,7 +15,7 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
   const [edit, setEdit] = useState(false);
 
   const handleSubmit = ({ imageUrl }: { imageUrl: string }) => {
-    console.log(imageUrl);
+    console.log("Image",imageUrl);
   };
   const handleEdit = () => setEdit((prev) => !prev);
   return (

@@ -1,22 +1,22 @@
 import { connectDb } from "@/lib/db";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { getSession } from "next-auth/react";
-
-import { Session } from "next-auth";
-
+import { getServerSession } from "next-auth";
+import { handler } from "../auth/[...nextauth]/route";
 const f = createUploadthing();
 
-const auth = async (session: Session) => {
-  if (!session) {
-    throw new Error("Unauthorized");
+const auth = async () => {
+  const session = await getServerSession(handler);
+  if (session) {
+    return session.user.userId;
   }
-  return session.user.userId;
+
+  return false;
 };
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   courseImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
-    .middleware(() => )
+    .middleware(auth)
     .onUploadComplete((uploadedFile) => {
       // Handle the uploaded file here, e.g., save it to the server or database
     }),
