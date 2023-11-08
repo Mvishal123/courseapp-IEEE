@@ -9,7 +9,6 @@ import Searchbar from "./user/header/Searchbar";
 import StartTeaching from "./user/StartTeaching";
 import Profilebutton from "./user/header/Profilebutton";
 import MenuHeader from "./user/header/MenuHeader";
-import { useEffect } from "react";
 
 function UserHeader() {
   const router = useRouter();
