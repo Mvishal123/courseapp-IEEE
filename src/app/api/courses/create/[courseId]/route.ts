@@ -13,7 +13,8 @@ export async function PATCH(
     console.log("[UPDATE]", courseId);
 
     const data = await req.json();
-    console.log(data);
+    console.log("[data]: ", data);
+    
 
     const course = await Course.findById(courseId);
     if (!course) {
@@ -23,6 +24,8 @@ export async function PATCH(
     await course.save();
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error: any) {
+    console.log("here i am :(");
+    
     return NextResponse.json(error.message, { status: 500 });
   }
 }

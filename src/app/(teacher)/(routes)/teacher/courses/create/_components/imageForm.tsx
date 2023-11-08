@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CameraIcon, PlusCircle } from "lucide-react";
-import { set } from "mongoose";
+import { CameraIcon, PencilIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ImageDropZone from "./ImageDropZone";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface imageProps {
   initialValue: string;
@@ -13,9 +15,17 @@ interface imageProps {
 
 const ImageForm = ({ initialValue, courseId }: imageProps) => {
   const [edit, setEdit] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = ({ imageUrl }: { imageUrl: string }) => {
-    console.log("Image",imageUrl);
+  const handleSubmit = async ({ imageUrl }: { imageUrl: string }) => {
+    try {
+      const res = await axios.patch(`/api/courses/create/${courseId}`, {
+        image: imageUrl,
+      });
+      toast.success("Image uploaded successfully");
+      handleEdit();
+      router.refresh();
+    } catch (error) {}
   };
   const handleEdit = () => setEdit((prev) => !prev);
   return (
@@ -25,8 +35,12 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
           <h1 className="text-lg">Course image</h1>
           {!edit ? (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              <span>Uplaod image</span>
+              {!initialValue ? (
+                <PlusCircle className="h-4 w-4 mr-2" />
+              ) : (
+                <PencilIcon className="h-4 w-4 mr-2" />
+              )}
+              <span>{!initialValue ? "Uplaod image" : "edit image"}</span>
             </Button>
           ) : (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>
@@ -48,14 +62,21 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
                 onChange={(url) => {
                   if (url) {
                     handleSubmit({ imageUrl: url });
+                  } else {
+                    toast.error("Error publishing image");
                   }
                 }}
               />
             </div>
           )}
           {initialValue && initialValue !== "undefined" && !edit && (
-            <div className="relative object-contain">
-              <Image fill src={initialValue} alt="course image" />
+            <div className="relative aspect-video">
+              <Image
+                fill
+                src={initialValue}
+                alt="course image"
+                className="object-contain"
+              />
             </div>
           )}
         </div>

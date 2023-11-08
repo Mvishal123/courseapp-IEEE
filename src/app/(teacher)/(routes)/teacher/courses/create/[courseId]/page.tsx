@@ -11,8 +11,8 @@ const CourseCreatePage = async ({
 }: {
   params: { courseId: string };
 }) => {
+  
   const course = await Course.findById(params.courseId);
-  // console.log(course);
 
   const tasks = [
     course.title,
@@ -25,7 +25,7 @@ const CourseCreatePage = async ({
   const completed = tasks.filter(Boolean).length;
 
   return (
-    <div className="">
+    <div>
       <div className="container pt-6">
         <div>
           <h1 className="text-4xl font-bold">Create a new course</h1>

@@ -2,11 +2,11 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "@/models";
+import { NextAuthOptions } from "next-auth";
 
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import bcrypt from "bcryptjs";
-import { NextAuthOptions } from "next-auth";
 
 const handler: NextAuthOptions = NextAuth({
   providers: [
@@ -44,7 +44,6 @@ const handler: NextAuthOptions = NextAuth({
       },
     }),
   ],
-
   session: {
     strategy: "jwt",
   },
@@ -81,4 +80,4 @@ const handler: NextAuthOptions = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST, handler};
+export { handler as GET, handler as POST, handler };

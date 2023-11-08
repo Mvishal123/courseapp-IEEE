@@ -1,4 +1,3 @@
-import { connectDb } from "@/lib/db";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { getServerSession } from "next-auth";
 import { handler } from "../auth/[...nextauth]/route";
