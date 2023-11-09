@@ -3,6 +3,8 @@ import { Course } from "@/models";
 import TitleForm from "../_components/titleForm";
 import DescriptionForm from "../_components/descriprionForm";
 import ImageForm from "../_components/imageForm";
+import { CourseCategory } from "@/models";
+import CategorySection from "../_components/categoryForm";
 
 connectDb();
 
@@ -11,7 +13,6 @@ const CourseCreatePage = async ({
 }: {
   params: { courseId: string };
 }) => {
-  
   const course = await Course.findById(params.courseId);
 
   const tasks = [
@@ -21,6 +22,13 @@ const CourseCreatePage = async ({
     course.price,
     course.image,
   ];
+
+  const courseCategory = await CourseCategory.find({}).sort({ category: 1 });
+  console.log(courseCategory);
+  const plainOptions = courseCategory.map((category) => ({
+    label: category.category,
+    value: category._id.toString(),
+  }));
 
   const completed = tasks.filter(Boolean).length;
 
@@ -46,6 +54,11 @@ const CourseCreatePage = async ({
             <ImageForm
               initialValue={`${course.image}`}
               courseId={`${course._id}`}
+            />
+            <CategorySection
+              initialValue={`${course.category}`}
+              courseId={`${course._id}`}
+              options={plainOptions}
             />
           </div>
         </div>
