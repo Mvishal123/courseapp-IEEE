@@ -35,12 +35,16 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
           <h1 className="text-lg">Course image</h1>
           {!edit ? (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>
-              {!initialValue ? (
+              {!initialValue || initialValue === "undefined" ? (
                 <PlusCircle className="h-4 w-4 mr-2" />
               ) : (
                 <PencilIcon className="h-4 w-4 mr-2" />
               )}
-              <span>{!initialValue ? "Uplaod image" : "edit image"}</span>
+              <span>
+                {!initialValue || initialValue === "undefined"
+                  ? "Upload image"
+                  : "edit image"}
+              </span>
             </Button>
           ) : (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>

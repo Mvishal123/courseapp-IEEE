@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
   forgotpasswordTokenExpiry: Date,
 });
 
+const courseCategorySchema = new mongoose.Schema({
+  category: String,
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+});
+
 const courseSchema = new mongoose.Schema({
   title: String,
   category: String,
@@ -43,3 +48,6 @@ export const Admin =
   mongoose.models.Admin || mongoose.model("Admin", adminSchema);
 export const Course =
   mongoose.models.Course || mongoose.model("Course", courseSchema);
+export const CourseCategory =
+  mongoose.models.CourseCategory ||
+  mongoose.model("CourseCategory", courseCategorySchema);
