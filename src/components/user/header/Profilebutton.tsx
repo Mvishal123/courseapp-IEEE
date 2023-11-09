@@ -15,6 +15,7 @@ const Profilebutton = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+
   const handleSignout = async () => {
     try {
       await signOut();
@@ -30,8 +31,10 @@ const Profilebutton = () => {
       <Popover>
         <PopoverTrigger>
           <Avatar>
-            <AvatarFallback>X</AvatarFallback>
-            {session && <AvatarImage src={`${session.user?.image}`} />}
+            <AvatarFallback>
+              {session ? `${session.user.username}` : "X"}
+            </AvatarFallback>
+            {session && <AvatarImage src={`${session.user.image}`} />}
             {!session && (
               <AvatarImage
                 src={`/icons/profile.svg`}

@@ -40,7 +40,7 @@ const DescriptionSection = ({ initialValue, courseId }: PageProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialValue,
+      description: initialValue ? initialValue : "",
     },
   });
 
@@ -100,7 +100,7 @@ const DescriptionSection = ({ initialValue, courseId }: PageProps) => {
                       <FormControl>
                         <Textarea
                           placeholder="e.g. This course is..."
-                          defaultValue={initialValue}
+                          defaultValue={initialValue ? initialValue : ""}
                           {...field}
                         />
                       </FormControl>
