@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Label } from "@radix-ui/react-label";
 
 interface ComboboxProps {
   options: { label: string; value: string }[];
@@ -49,17 +50,17 @@ export const ComboboxDemo = ({ options, value, onChange }: ComboboxProps) => {
           <CommandGroup>
             {options.map((option) => (
               <CommandItem
-                key={option.value}
-                value={option.value}
+                key={option.label}
+                value={option.label}
                 onSelect={() => {
-                  onChange(option.value === value ? "" : option.value);
+                  onChange(option.label === option.label ? "" : option.label);
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === option.value ? "opacity-100" : "opacity-0"
+                    value === option.label ? "opacity-100" : "opacity-0"
                   )}
                 />
                 {option.label}
