@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, PlusCircle } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
@@ -15,53 +15,42 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea";
 
+import { currencyConverter } from "@/helper/currencyConverter";
 import { cn } from "@/lib/utils";
-import { ComboboxDemo } from "@/components/ui/combobox";
 
-interface CategorySectionProps {
-  initialValue: string;
+interface PageProps {
+  initialValue: number;
   courseId: string;
-  options: { label: string; value: string }[];
 }
 
 const formSchema = z.object({
-  categoryId: z.string().min(1),
+  price: z.coerce.number().min(0, { message: "Price required" }),
 });
 
-const CategorySection = ({
-  initialValue,
-  courseId,
-  options,
-}: CategorySectionProps) => {
+const PriceSection = ({ initialValue, courseId }: PageProps) => {
   const [isEdit, setIsEdit] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialValue ? initialValue : "",
+      price: initialValue ? initialValue : 0,
     },
   });
 
   const handleEdit = () => setIsEdit((prev) => !prev);
 
-  const selectedOptions = options.find(
-    (option) => option.value === initialValue
-  );
-  console.log("ahhaha", selectedOptions);
-
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       // console.log(data);
-      const res = await axios.patch(`/api/courses/create/${courseId}`, {
-        category: data.categoryId,
-      });
-      toast.success("category added successfully");
+      const res = await axios.patch(`/api/courses/create/${courseId}`, data);
+      toast.success("Price updated successfully");
       handleEdit();
       router.refresh();
     } catch (error: any) {
@@ -73,19 +62,11 @@ const CategorySection = ({
   return (
     <div className="mt-4 rounded-lg bg-slate-100 px-4 py-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg">Course Category</h1>
+        <h1 className="text-lg">Course Price</h1>
         {!isEdit ? (
           <Button variant={"ghost"} onClick={handleEdit}>
-            {initialValue && initialValue !== "undefined" ? (
-              <Pencil className="h-4 w-4 mr-2" />
-            ) : (
-              <PlusCircle className="h-4 w-4 mr-2" />
-            )}
-            <span className="text-sm">
-              {initialValue && initialValue !== "undefined"
-                ? "Edit Category"
-                : "add category"}
-            </span>
+            <Pencil className="h-4 w-4 mr-2" />{" "}
+            <span className="text-sm"> Edit Price</span>
           </Button>
         ) : (
           <Button variant={"ghost"} onClick={handleEdit}>
@@ -101,10 +82,8 @@ const CategorySection = ({
               !initialValue && " text-slate-500 font-medium text-sm "
             )}
           >
-            {!initialValue || (initialValue === "undefined" && "no category")}
-            {initialValue && initialValue !== "undefined" && (
-              <p>{selectedOptions?.label}</p>
-            )}
+            {!initialValue && "no Price"}
+            {initialValue && <p>{currencyConverter(initialValue)}</p>}
           </h1>
         )}
         {isEdit && (
@@ -112,12 +91,12 @@ const CategorySection = ({
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
-                  name="categoryId"
+                  name="price"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <ComboboxDemo options={options} {...field} />
+                        <Input type="number" min="0" step={0.1} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,4 +121,4 @@ const CategorySection = ({
   );
 };
 
-export default CategorySection;
+export default PriceSection;

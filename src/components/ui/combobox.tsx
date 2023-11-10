@@ -17,7 +17,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Label } from "@radix-ui/react-label";
 
 interface ComboboxProps {
   options: { label: string; value: string }[];
@@ -28,6 +27,8 @@ interface ComboboxProps {
 export const ComboboxDemo = ({ options, value, onChange }: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
 
+  console.log("value", value, "options", options, "onChange", onChange);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -35,10 +36,12 @@ export const ComboboxDemo = ({ options, value, onChange }: ComboboxProps) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
+          aria-haspopup="listbox"
+          aria-controls="your-popover-id"
           className="w-[200px] justify-between"
         >
           {value
-            ? options.find((options) => options.value === value)?.label
+            ? options.find((opt) => opt.value === value)?.label ?? "Select options..."
             : "Select options..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -48,22 +51,22 @@ export const ComboboxDemo = ({ options, value, onChange }: ComboboxProps) => {
           <CommandInput placeholder="Search options..." />
           <CommandEmpty>No option found.</CommandEmpty>
           <CommandGroup>
-            {options.map((option) => (
+            {options.map((singleOption) => (
               <CommandItem
-                key={option.label}
-                value={option.label}
+                key={singleOption.label}
+                value={singleOption.label}
                 onSelect={() => {
-                  onChange(option.label === option.label ? "" : option.label);
+                  onChange(singleOption.label === value ? "" : singleOption.label);
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === option.label ? "opacity-100" : "opacity-0"
+                    value === singleOption.label ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {option.label}
+                {singleOption.label}
               </CommandItem>
             ))}
           </CommandGroup>
