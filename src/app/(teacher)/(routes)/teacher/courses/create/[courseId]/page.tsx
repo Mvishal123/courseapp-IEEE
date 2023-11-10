@@ -10,6 +10,7 @@ import CategorySection from "../_components/categoryForm";
 
 import IconBadge from "@/components/ui/IconBadge";
 import { DollarSign, LayoutDashboard, ListTodo } from "lucide-react";
+import AttachmentsSection from "../_components/attachementsForm";
 
 connectDb();
 
@@ -70,17 +71,32 @@ const CourseCreatePage = async ({
               options={plainOptions}
             />
           </div>
-          <div>
+          <div className="flex flex-col gap-10">
             <div className="flex items-center gap-2">
               <IconBadge icon={ListTodo} status={false} />
               <h1 className="font-bold">Course chapters</h1>
             </div>
             <div>TODO</div>
-            <div className="flex items-center gap-2">
-              <IconBadge icon={DollarSign} status={false} />
-              <h1>Sell your course</h1>
+            <div>
+              <div className="flex items-center gap-2">
+                <IconBadge icon={DollarSign} status={false} />
+                <h1 className="font-bold">Sell your course</h1>
+              </div>
+              <PriceSection initialValue={course.price} courseId={`${course._id}`} />
             </div>
-            <PriceSection initialValue={course.price} courseId={course._id} />
+
+            <div>
+              <div className="flex items-center gap-2 md:pb-6">
+                <IconBadge icon={DollarSign} status={false} />
+                <h1 className="font-bold">
+                  Does your students need any resources to complete this course
+                </h1>
+              </div>
+              <AttachmentsSection
+                initialValue={course.attachments}
+                courseId={`${course._id}`}
+              />
+            </div>
           </div>
         </div>
       </div>

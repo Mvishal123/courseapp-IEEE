@@ -38,6 +38,7 @@ const courseSchema = new mongoose.Schema({
   stars: Number,
   level: String,
   reviews: [String],
+  attachments: [String],
   published: Boolean,
   userId: String,
 });

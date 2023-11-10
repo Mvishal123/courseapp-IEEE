@@ -34,7 +34,7 @@ const CreateCourse = () => {
     try {
       const res = await axios.post("/api/courses/create", {
         data,
-        userId: session?.user?.email,
+        userId: session?.user?.userId,
       });
       toast.success("Course created successfully");
       const courseId = res.data.courseId;

@@ -19,6 +19,9 @@ export const ourFileRouter = {
     .onUploadComplete((uploadedFile) => {
       // Handle the uploaded file here, e.g., save it to the server or database
     }),
+  courseAttachment: f(["text", "image", "video", "audio", "pdf"])
+    .middleware(() => auth())
+    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

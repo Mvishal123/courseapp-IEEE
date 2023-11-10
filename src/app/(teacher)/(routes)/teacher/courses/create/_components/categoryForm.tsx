@@ -53,7 +53,6 @@ const CategorySection = ({
   const selectedOptions = options.find(
     (option) => option.value === initialValue
   );
-  console.log("ahhaha", selectedOptions);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -66,7 +65,6 @@ const CategorySection = ({
       router.refresh();
     } catch (error: any) {
       toast.error("Something went wrong");
-      console.log(error.message);
     }
   };
 
