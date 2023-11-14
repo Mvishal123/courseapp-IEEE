@@ -1,12 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { User } from "@/models";
 import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import bcrypt from "bcryptjs";
+
+import { User } from "@/models";
+import { connectDb } from "@/lib/db";
+import { Admin } from "@/models";
 
 const handler: NextAuthOptions = NextAuth({
   providers: [
@@ -26,7 +28,7 @@ const handler: NextAuthOptions = NextAuth({
         if (!credentials?.email && !credentials?.password) return false;
 
         await connectDb();
-        console.log(credentials);
+        // console.log(credentials);
 
         if (!credentials) return false;
 
@@ -54,6 +56,7 @@ const handler: NextAuthOptions = NextAuth({
       try {
         await connectDb();
         const user = await User.findOne({ email: session?.user?.email });
+
         if (user && session.user) {
           session.user.userId = user._id;
         }
@@ -66,6 +69,17 @@ const handler: NextAuthOptions = NextAuth({
     async signIn({ profile }) {
       await connectDb();
       const isUser = await User.findOne({ email: profile?.email });
+
+      //to be changed whne you create a special login methof for admins.
+      const admin = await Admin.findOne({ email: profile?.email });
+      if (!admin) {
+        const newAdmin = await new Admin({
+          username: profile?.name,
+          email: profile?.email,
+        });
+        newAdmin.save();
+      }
+
       if (!isUser) {
         const newUser = await new User({
           username: profile?.name,

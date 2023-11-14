@@ -5,7 +5,8 @@ const adminSchema = new mongoose.Schema({
   username: String,
   password: String,
   email: String,
-  type: String,
+  // type: String,
+  /*userAccount: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],*/
   mycourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
@@ -41,6 +42,10 @@ const courseSchema = new mongoose.Schema({
   attachments: [String],
   published: Boolean,
   userId: String,
+}).post("save", async function (doc) {
+  const admin = await Admin.findById(doc.userId);
+  if (!admin) return;
+  admin.mycourses.push(doc._id);
 });
 
 // Models

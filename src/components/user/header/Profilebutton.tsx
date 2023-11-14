@@ -16,15 +16,15 @@ const Profilebutton = () => {
   const router = useRouter();
 
 
-  const handleSignout = async () => {
-    try {
-      await signOut();
-      toast.success("Logout successfull");
-      router.push("/signin");
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+  // const handleSignout = async () => {
+  //   try {
+  //     await signOut();
+  //     toast.success("Logout successfull");
+  //     router.push("/signin");
+  //   } catch (error: any) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   return (
     <div>

@@ -30,7 +30,6 @@ const CreateCourse = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const onSubmitHandler = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
     try {
       const res = await axios.post("/api/courses/create", {
         data,

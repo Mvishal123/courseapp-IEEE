@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Course } from "@/models";
 import { connectDb } from "@/lib/db";
+import { getServerSession } from "next-auth";
 
 connectDb();
 
