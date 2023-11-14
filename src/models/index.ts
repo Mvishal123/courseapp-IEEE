@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 
-// Schema
-const adminSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  email: String,
-  // type: String,
-  /*userAccount: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],*/
-  mycourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
-});
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -17,7 +8,10 @@ const userSchema = new mongoose.Schema({
   profileImage: String,
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   mycourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
-  isVerified: Boolean,
+
+  createdCourses: [{type: mongoose.Schema.Types.ObjectId, ref: "Course"}],
+  
+  isVerified: { type: Boolean, default: false},
   verifyToken: String,
   verifyTokenExpiry: Date,
   forgotpasswordToken: String,
@@ -35,18 +29,17 @@ const courseSchema = new mongoose.Schema({
   description: String,
   price: String,
   image: String,
+
   teacher: String,
   stars: Number,
   level: String,
   reviews: [String],
   attachments: [String],
+
   published: Boolean,
+
   userId: String,
-}).post("save", async function (doc) {
-  const admin = await Admin.findById(doc.userId);
-  if (!admin) return;
-  admin.mycourses.push(doc._id);
-});
+})
 
 // Models
 export const User = mongoose.models.User || mongoose.model("User", userSchema);

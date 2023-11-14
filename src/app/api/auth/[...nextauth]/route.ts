@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs";
 
 import { User } from "@/models";
 import { connectDb } from "@/lib/db";
-import { Admin } from "@/models";
 
 const handler: NextAuthOptions = NextAuth({
   providers: [
@@ -30,8 +29,6 @@ const handler: NextAuthOptions = NextAuth({
         await connectDb();
         // console.log(credentials);
 
-        if (!credentials) return false;
-
         const user = await User.findOne({ email: credentials?.email });
         if (!user) return false;
 
@@ -45,6 +42,23 @@ const handler: NextAuthOptions = NextAuth({
         return user;
       },
     }),
+    // //@ts-ignore
+    // CredentialsProvider({
+    //   name: "adminCredentials",
+    //   credentials: {
+    //       email: { label: "email", type: "email", placeholder: "organization email"},
+    //       password: { label: "password", type: "password", placeholder: "..." },
+    //       organization: { label: "organization", type: "text", placeholder: "organization name" },
+    //   },
+    //   async authorize(credentials) {
+    //     if(!credentials?.email || !credentials.password || !credentials?.organization) return false;
+
+    //     await connectDb();
+
+    //     const admin = await Admin.findOne({email: credentials.ema})
+    //   }
+
+    // })
   ],
   session: {
     strategy: "jwt",
@@ -69,16 +83,6 @@ const handler: NextAuthOptions = NextAuth({
     async signIn({ profile }) {
       await connectDb();
       const isUser = await User.findOne({ email: profile?.email });
-
-      //to be changed whne you create a special login methof for admins.
-      const admin = await Admin.findOne({ email: profile?.email });
-      if (!admin) {
-        const newAdmin = await new Admin({
-          username: profile?.name,
-          email: profile?.email,
-        });
-        newAdmin.save();
-      }
 
       if (!isUser) {
         const newUser = await new User({
