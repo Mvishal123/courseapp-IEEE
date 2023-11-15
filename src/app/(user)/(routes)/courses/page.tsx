@@ -14,20 +14,6 @@ const getCourses = async () => {
 };
 
 const page = async () => {
-  // const [courses, setCourses] = useState<CourseData[]>([]);
-
-  // useEffect(() => {
-  //   const init = async () => {
-  //     try {
-  //       const data = await axios.get("api/courses");
-  //       setCourses(data.data);
-  //     } catch (error: any) {
-  //       throw new Error(error.message);
-  //     }
-  //   };
-
-  //   init();
-  // }, []);
   const courses: CourseData[] = await getCourses();
 
   return (

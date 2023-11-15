@@ -42,23 +42,6 @@ const handler: NextAuthOptions = NextAuth({
         return user;
       },
     }),
-    // //@ts-ignore
-    // CredentialsProvider({
-    //   name: "adminCredentials",
-    //   credentials: {
-    //       email: { label: "email", type: "email", placeholder: "organization email"},
-    //       password: { label: "password", type: "password", placeholder: "..." },
-    //       organization: { label: "organization", type: "text", placeholder: "organization name" },
-    //   },
-    //   async authorize(credentials) {
-    //     if(!credentials?.email || !credentials.password || !credentials?.organization) return false;
-
-    //     await connectDb();
-
-    //     const admin = await Admin.findOne({email: credentials.ema})
-    //   }
-
-    // })
   ],
   session: {
     strategy: "jwt",
