@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, PlusCircle } from "lucide-react";
+import { Loader2, Pencil, PlusCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
@@ -88,7 +88,12 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
   };
 
   return (
-    <div className="mt-4 rounded-lg bg-slate-100 px-4 py-2">
+    <div className="relative mt-4 rounded-lg bg-slate-100 px-4 py-2">
+      {isUpdating && (
+        <div className="absolute w-full h-full flex items-center justify-center bg-slate-400/20 top-0 right-0 rounded-lg">
+          <Loader2 className="animate-spin"/>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <h1 className="text-lg">Course Chapters</h1>
         {!isCreating ? (
