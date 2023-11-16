@@ -4,6 +4,7 @@ import { Course } from "@/models/index";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 
+
 connectDb();
 
 export async function POST(
@@ -12,6 +13,8 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(handler);
+    console.log("SESSIOn", session?.user.userId);
+
     const { url } = await req.json();
     console.log("URL: ", url);
 

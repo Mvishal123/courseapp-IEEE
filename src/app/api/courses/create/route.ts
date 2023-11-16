@@ -1,24 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Course } from "@/models";
+import { Course, User } from "@/models";
 import { connectDb } from "@/lib/db";
-import { getServerSession } from "next-auth";
 
 connectDb();
 
 export async function POST(req: NextRequest) {
   try {
     const { userId, data } = await req.json();
-    console.log("[CREATE]", userId, data);
-    
 
     if (!userId) {
       return NextResponse.json("Unauthorized", { status: 401 });
     }
-    const newCourse = new Course({
+    const newCourse = await new Course({
       title: data.title,
       userId,
     });
     await newCourse.save();
+
+    await User.updateOne(
+      { _id: userId },
+      { $push: { createdCourses: newCourse._id } }
+    );
 
     console.log("[CREATE]", newCourse);
 

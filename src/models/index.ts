@@ -17,11 +17,6 @@ const userSchema = new mongoose.Schema({
   forgotpasswordTokenExpiry: Date,
 });
 
-const courseCategorySchema = new mongoose.Schema({
-  category: String,
-  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
-});
-
 const courseSchema = new mongoose.Schema({
   title: String,
   category: String,
@@ -35,16 +30,22 @@ const courseSchema = new mongoose.Schema({
   reviews: [String],
 
   attachments: [String],
-  chapter: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }],
+  chapters: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }],
   purchases: [{ type: mongoose.Schema.Types.ObjectId, ref: "Purchases" }],
 
-  published: Boolean,
+  isPublished: { type: Boolean, default: false },
 
   userId: String,
 });
 
+const courseCategorySchema = new mongoose.Schema({
+  category: String,
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+});
+
 const chapterSchema = new mongoose.Schema(
   {
+    courseId: String,
     title: String,
     description: String,
     videoUrl: String,
@@ -99,12 +100,31 @@ export const CourseCategory =
   mongoose.models.CourseCategory ||
   mongoose.model("CourseCategory", courseCategorySchema);
 
-export const Chapter = mongoose.models.Chapter || mongoose.model("Chapter", chapterSchema);
+export const Chapter =
+  mongoose.models.Chapter || mongoose.model("Chapter", chapterSchema);
 
-export const MuxData = mongoose.models.MuxData || mongoose.model("MuxData", muxDataSchema);
+export const MuxData =
+  mongoose.models.MuxData || mongoose.model("MuxData", muxDataSchema);
 
-export const UserProgress = mongoose.models.UserProgress || mongoose.model("UserProgress", userProgressSchema);
+export const UserProgress =
+  mongoose.models.UserProgress ||
+  mongoose.model("UserProgress", userProgressSchema);
 
-export const Purchases = mongoose.models.Purchases || mongoose.model("Purchases", purchasesSchema);
+export const Purchases =
+  mongoose.models.Purchases || mongoose.model("Purchases", purchasesSchema);
 
-export const StripeCustomer = mongoose.models.StripeCustomer || mongoose.model("StripeCustomer", stripeCustomerSchema);
+export const StripeCustomer =
+  mongoose.models.StripeCustomer ||
+  mongoose.model("StripeCustomer", stripeCustomerSchema);
+
+//callbacks
+
+chapterSchema.post("deleteOne", async function (doc) {
+  try {
+    const user = await User.findOne({ _id: doc.userId });
+    if (!user) return;
+    user.createdCourses.pull(doc._id);
+  } catch (error) {
+    return;
+  }
+});

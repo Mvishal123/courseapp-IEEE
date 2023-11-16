@@ -32,7 +32,7 @@ const handler: NextAuthOptions = NextAuth({
         const user = await User.findOne({ email: credentials?.email });
         if (!user) return false;
 
-        const isPasswordValid = bcrypt.compare(
+        const isPasswordValid = await bcrypt.compare(
           credentials?.password,
           user.password
         );
@@ -46,7 +46,7 @@ const handler: NextAuthOptions = NextAuth({
   session: {
     strategy: "jwt",
   },
-  secret: process.env.JWT_SECRET!,
+  secret: process.env.NEXTAUTH_SECRET!,
   debug: process.env.NODE_ENV === "development",
   callbacks: {
     async session({ session }) {
@@ -74,7 +74,7 @@ const handler: NextAuthOptions = NextAuth({
           //@ts-ignore
           profileImage: profile?.picture,
         });
-        newUser.save();
+        await newUser.save();
       }
       return true;
     },

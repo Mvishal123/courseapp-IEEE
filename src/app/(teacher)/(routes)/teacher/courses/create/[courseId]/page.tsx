@@ -1,6 +1,7 @@
 import { connectDb } from "@/lib/db";
 import { Course } from "@/models";
 import { CourseCategory } from "@/models";
+import { Chapter } from "@/models";
 
 import TitleForm from "../_components/titleForm";
 import DescriptionForm from "../_components/descriprionForm";
@@ -11,6 +12,9 @@ import CategorySection from "../_components/categoryForm";
 import IconBadge from "@/components/ui/IconBadge";
 import { DollarSign, LayoutDashboard, ListTodo } from "lucide-react";
 import AttachmentsSection from "../_components/attachementsForm";
+import ChapterSection from "../_components/chapterForm";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 connectDb();
 
@@ -20,6 +24,14 @@ const CourseCreatePage = async ({
   params: { courseId: string };
 }) => {
   const course = await Course.findById(params.courseId);
+  const chapters = await Chapter.find({ courseId: params.courseId }).sort({
+    position: "asc",
+  });
+
+  if (!course) {
+    toast.error("Course not found");
+    return redirect("teacher/courses");
+  }
 
   const tasks = [
     course.title,
@@ -27,6 +39,7 @@ const CourseCreatePage = async ({
     course.description,
     course.price,
     course.image,
+    chapters.some((chapter) => chapter.isPublished),
   ];
 
   const courseCategory = await CourseCategory.find({}).sort({ category: 1 });
@@ -76,13 +89,20 @@ const CourseCreatePage = async ({
               <IconBadge icon={ListTodo} status={false} />
               <h1 className="font-bold">Course chapters</h1>
             </div>
-            <div>TODO</div>
+
+            <ChapterSection
+              initialValue={course.chapter}
+              courseId={`${course._id}`}
+            />
             <div>
               <div className="flex items-center gap-2">
                 <IconBadge icon={DollarSign} status={false} />
                 <h1 className="font-bold">Sell your course</h1>
               </div>
-              <PriceSection initialValue={course.price} courseId={`${course._id}`} />
+              <PriceSection
+                initialValue={course.price}
+                courseId={`${course._id}`}
+              />
             </div>
 
             <div>

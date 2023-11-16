@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import ImageDropZone from "./ImageDropZone";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface attachmentsProps {
   initialValue: string[];
@@ -99,7 +100,7 @@ const AttachmentsSection = ({ initialValue, courseId }: attachmentsProps) => {
                 className="bg-purple-400/50 border border-purple-700 p-3 rounded-lg"
               >
                 <div className="flex items-center justify-between">
-                  <span className="line-clamp-2">{url}</span>
+                  <span className="line-clamp-2"><Link href={`${url}`} target="_blank">{url}</Link></span>
                   <span onClick={async () => await handleDelete(url)}>
                     {isDeleting !== url && (
                       <X className="h-4 w-4 hover:text-red-800" />
