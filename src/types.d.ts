@@ -11,3 +11,18 @@ export interface CourseData {
     published?: Boolean,
     adminId?: mongoose.Schema.Types.ObjectId
 }
+
+export interface chapterModelType {
+    _id: string;
+    title: string;
+    description?: string;
+    videoUrl?: string;
+    isPublished: boolean;
+    isFree: boolean;
+  
+    muxData?: { _id: String }[];
+  
+    createdAt: Date;
+    updatedAt: Date;
+  }
+  

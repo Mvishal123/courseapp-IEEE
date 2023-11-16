@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@hello-pangea/dnd": "^16.3.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/material": "^5.14.13",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -53,6 +54,8 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
     "postcss": "^8",
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3",
     "typescript": "^5"
   },

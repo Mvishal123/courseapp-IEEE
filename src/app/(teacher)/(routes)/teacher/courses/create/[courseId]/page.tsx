@@ -10,7 +10,7 @@ import PriceSection from "../_components/priceForm";
 import CategorySection from "../_components/categoryForm";
 
 import IconBadge from "@/components/ui/IconBadge";
-import { DollarSign, LayoutDashboard, ListTodo } from "lucide-react";
+import { DollarSign, File, LayoutDashboard, ListTodo } from "lucide-react";
 import AttachmentsSection from "../_components/attachementsForm";
 import ChapterSection from "../_components/chapterForm";
 import { redirect } from "next/navigation";
@@ -23,7 +23,7 @@ const CourseCreatePage = async ({
 }: {
   params: { courseId: string };
 }) => {
-  const course = await Course.findById(params.courseId);
+  const course = await Course.findById(params.courseId).populate("chapters");
   const chapters = await Chapter.find({ courseId: params.courseId }).sort({
     position: "asc",
   });
@@ -44,9 +44,14 @@ const CourseCreatePage = async ({
 
   const courseCategory = await CourseCategory.find({}).sort({ category: 1 });
 
-  const plainOptions = courseCategory.map((category) => ({
+  const categoryData = courseCategory.map((category) => ({
     label: category.category,
     value: category._id.toString(),
+  }));
+
+  const chapterData = chapters.map((chapter) => ({
+    ...chapter.toObject(),
+    _id: chapter._id.toString(),
   }));
 
   const completed = tasks.filter(Boolean).length;
@@ -81,7 +86,7 @@ const CourseCreatePage = async ({
             <CategorySection
               initialValue={`${course.category}`}
               courseId={`${course._id}`}
-              options={plainOptions}
+              options={categoryData}
             />
           </div>
           <div className="flex flex-col gap-10">
@@ -91,7 +96,7 @@ const CourseCreatePage = async ({
             </div>
 
             <ChapterSection
-              initialValue={course.chapter}
+              initialValue={chapterData}
               courseId={`${course._id}`}
             />
             <div>
@@ -107,7 +112,7 @@ const CourseCreatePage = async ({
 
             <div>
               <div className="flex items-center gap-2 md:pb-6">
-                <IconBadge icon={DollarSign} status={false} />
+                <IconBadge icon={File} status={false} />
                 <h1 className="font-bold">
                   Does your students need any resources to complete this course
                 </h1>

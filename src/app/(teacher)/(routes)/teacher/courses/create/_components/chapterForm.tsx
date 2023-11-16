@@ -23,9 +23,11 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
 import { useSession } from "next-auth/react";
+import ChaptersList from "./ChaptersList";
+import { chapterModelType } from "@/types";
 
 interface ChapterSchemaProps {
-  initialValue: string[];
+  initialValue: chapterModelType[] | [];
   courseId: string;
 }
 
@@ -64,6 +66,24 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
     } catch (error: any) {
       toast.error("Something went wrong");
       console.log(error.message);
+    }
+  };
+
+  const onReorderHandler = async (
+    updateData: { chapterId: string; position: number }[]
+  ) => {
+    try {
+      setIsUpdating(true);
+      await axios.put(`/api/courses/create/${courseId}/chapter/reorder`, {
+        list: updateData,
+      });
+
+      toast.success("Chapters reordered");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -117,12 +137,20 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
             </Form>
           </div>
         )}
-        {!isCreating && (
+        {!isCreating && initialValue?.length <= 0 && (
           <div
             className={cn("text-sm mt-2", !initialValue?.length && "italic")}
           >
             No chapters
           </div>
+        )}
+
+        {!isCreating && (
+          <ChaptersList
+            onEdit={() => {}}
+            onReorder={onReorderHandler}
+            items={initialValue || []}
+          />
         )}
         {!isCreating && (
           <p className="text-sm text-muted-foreground mt-4">
