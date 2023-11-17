@@ -23,7 +23,7 @@ const CourseCreatePage = async ({
 }: {
   params: { courseId: string };
 }) => {
-  const course = await Course.findById(params.courseId).populate("chapters");
+  const course = await Course.findById(params.courseId);
   const chapters = await Chapter.find({ courseId: params.courseId }).sort({
     position: "asc",
   });

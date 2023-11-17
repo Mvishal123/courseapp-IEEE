@@ -87,11 +87,15 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
     }
   };
 
+  const onEditHandler = (chapterId: string) => {
+    router.push(`/teacher/courses/create/${courseId}/chapter/${chapterId}`);
+  };
+
   return (
     <div className="relative mt-4 rounded-lg bg-slate-100 px-4 py-2">
       {isUpdating && (
         <div className="absolute w-full h-full flex items-center justify-center bg-slate-400/20 top-0 right-0 rounded-lg">
-          <Loader2 className="animate-spin"/>
+          <Loader2 className="animate-spin" />
         </div>
       )}
       <div className="flex justify-between items-center">
@@ -152,7 +156,7 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
 
         {!isCreating && (
           <ChaptersList
-            onEdit={() => {}}
+            onEdit={onEditHandler}
             onReorder={onReorderHandler}
             items={initialValue || []}
           />
