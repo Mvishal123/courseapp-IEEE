@@ -24,22 +24,32 @@ const handler: NextAuthOptions = NextAuth({
         email: { label: "email", type: "email", placeholder: "name@gmail.com" },
       },
       async authorize(credentials) {
-        if (!credentials?.email && !credentials?.password) return false;
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Email and password are required.");
+          }
 
-        await connectDb();
-        // console.log(credentials);
+          await connectDb();
+          const user = await User.findOne({ email: credentials.email });
 
-        const user = await User.findOne({ email: credentials?.email });
-        if (!user) return false;
+          if (!user) {
+            throw new Error("User not found.");
+          }
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials?.password,
-          user.password
-        );
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
 
-        if (!isPasswordValid) return false;
+          if (!isPasswordValid) {
+            throw new Error("Invalid password.");
+          }
 
-        return user;
+          return user;
+        } catch (error: any) {
+          console.error("Authorization error:", error.message);
+          return false;
+        }
       },
     }),
   ],
@@ -64,17 +74,22 @@ const handler: NextAuthOptions = NextAuth({
     },
 
     async signIn({ profile }) {
-      await connectDb();
-      const isUser = await User.findOne({ email: profile?.email });
+      try {
+        await connectDb();
+        const isUser = await User.findOne({ email: profile?.email });
 
-      if (!isUser) {
-        const newUser = await new User({
-          username: profile?.name,
-          email: profile?.email,
-          //@ts-ignore
-          profileImage: profile?.picture,
-        });
-        await newUser.save();
+        if (!isUser) {
+          const newUser = await new User({
+            username: profile?.name,
+            email: profile?.email,
+            //@ts-ignore
+            profileImage: profile?.picture,
+          });
+          await newUser.save();
+        }
+      } catch (error: any) {
+        console.error("Sign-in error:", error.message);
+        return false;
       }
       return true;
     },

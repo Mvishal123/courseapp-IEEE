@@ -22,14 +22,15 @@ import { useRouter } from "next/navigation";
 
 interface titleProps {
   initialValue: string;
-  courseId: string;
+  chapterId: string;
+  courseId: string
 }
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
 });
 
-const TitleForm = ({ initialValue, courseId }: titleProps) => {
+const ChapterTitleForm = ({ initialValue, chapterId, courseId}: titleProps) => {
   const router = useRouter();
   const [edit, setEdit] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,11 +43,11 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     // console.log(data);
     try {
-      const res = await axios.patch(`/api/courses/create/${courseId}`, data);
+      const res = await axios.patch(`/api/courses/create/${courseId}/chapter/${chapterId}`, data);
       // console.log("CHANGE", res);
       handleEdit();
       router.refresh();
-      toast.success("Title updated");
+      toast.success("Chapter updated");
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -57,7 +58,7 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
     <div>
       <div className="w-full bg-slate-100 rounded-lg px-4 py-2">
         <div className="flex justify-between">
-          <h1 className="text-lg">Chapter title</h1>
+          <h1 className="text-lg">Course title</h1>
           <Button
             size="sm"
             variant={"ghost"}
@@ -84,7 +85,7 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
                       <FormControl>
                         <Input
                           defaultValue={initialValue}
-                          placeholder="e.g. chapter 1"
+                          placeholder="e.g. learn blockchain"
                           {...field}
                         />
                       </FormControl>
@@ -120,4 +121,4 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
   );
 };
 
-export default TitleForm;
+export default ChapterTitleForm;

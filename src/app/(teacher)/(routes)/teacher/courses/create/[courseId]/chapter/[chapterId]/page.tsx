@@ -1,12 +1,14 @@
 import { getSession, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import { Chapter, MuxData } from "@/models/index";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
+import IconBadge from "@/components/ui/IconBadge";
+import ChapterTitleForm from "../../../_components/chapterTitleForm";
 
 connectDb();
 
@@ -26,8 +28,6 @@ const ChapterDetailsSection = async ({
     courseId: params.courseId,
   }).populate("muxData");
 
-  console.log("chapter", chapter);
-
   if (!chapter) {
     toast.error("Something went wrong");
     console.log("chapter not found");
@@ -44,7 +44,7 @@ const ChapterDetailsSection = async ({
   const requiredRender = `Complete all fields (${isCompleted}/${requiredFields.length})`;
 
   return (
-    <div className="p-6">
+    <div className="p-12">
       <div className="">
         <div className="flex items-center justify-between w-full text-sm">
           <Link href={`/teacher/courses/create/${params.courseId}`}>
@@ -54,8 +54,24 @@ const ChapterDetailsSection = async ({
             </div>
           </Link>
         </div>
-        <div className="mt-4">
-          <h1>Create chapter</h1>
+        <div className="mt-4 flex-col">
+          <h1 className="text-3xl">Create chapter</h1>
+          <div className="text-sm mt-2 text-slate-600 italic">
+            {requiredRender}
+          </div>
+        </div>
+      </div>
+      <div className="md:mt-12 mt-6 grid md:grid-cols-2 grid-cols-1">
+        <div>
+          <div className="flex items-center gap-2 font-bold">
+            <IconBadge icon={LayoutDashboard} />
+            <p>Customize your chapter</p>
+          </div>
+          <div className="mt-6">
+            <div>
+              <ChapterTitleForm initialValue={chapter.title} chapterId={params.chapterId} courseId={params.courseId}/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
