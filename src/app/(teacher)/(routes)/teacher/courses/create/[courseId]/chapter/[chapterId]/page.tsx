@@ -44,7 +44,7 @@ const ChapterDetailsSection = async ({
   const requiredRender = `Complete all fields (${isCompleted}/${requiredFields.length})`;
 
   return (
-    <div className="p-12">
+    <div className="container">
       <div className="">
         <div className="flex items-center justify-between w-full text-sm">
           <Link href={`/teacher/courses/create/${params.courseId}`}>
@@ -55,7 +55,7 @@ const ChapterDetailsSection = async ({
           </Link>
         </div>
         <div className="mt-4 flex-col">
-          <h1 className="text-3xl">Create chapter</h1>
+          <h1 className="text-4xl font-bold">Create chapter</h1>
           <div className="text-sm mt-2 text-slate-600 italic">
             {requiredRender}
           </div>
@@ -65,7 +65,7 @@ const ChapterDetailsSection = async ({
         <div>
           <div className="flex items-center gap-2 font-bold">
             <IconBadge icon={LayoutDashboard} />
-            <p>Customize your chapter</p>
+            <p className="text-xl">Customize your chapter</p>
           </div>
           <div className="mt-6">
             <div>
