@@ -104,7 +104,7 @@ const ChapterAcessForm = ({ initialValue, courseId, chapterId }: PageProps) => {
                   name="isFree"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem className="border border-slate-200 rounded-lg px-3 py-1 flex">
+                    <FormItem className="border border-slate-200 rounded-lg px-3 py-1 flex gap-2">
                       <FormControl>
                         <Checkbox
                           checked={field.value}

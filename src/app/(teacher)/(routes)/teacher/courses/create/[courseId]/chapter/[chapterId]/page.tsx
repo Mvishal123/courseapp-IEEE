@@ -1,6 +1,6 @@
 import { getSession, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { ArrowLeft, Eye, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import { Chapter, MuxData } from "@/models/index";
@@ -11,6 +11,7 @@ import IconBadge from "@/components/ui/IconBadge";
 import ChapterTitleForm from "../../../_components/chapterTitleForm";
 import ChapterDescriptionForm from "../../../_components/chapterDescriptionForm";
 import ChapterAcessForm from "../../../_components/chapterAccessForm";
+import ChapterVideoForm from "../../../_components/chapterVideoForm";
 
 connectDb();
 
@@ -63,7 +64,7 @@ const ChapterDetailsSection = async ({
           </div>
         </div>
       </div>
-      <div className="md:mt-12 mt-6 grid md:grid-cols-2 grid-cols-1">
+      <div className="md:mt-12 mt-6 grid md:grid-cols-2 grid-cols-1 space-x-20">
         <div className="flex flex-col gap-8">
           <div>
             <div className="flex items-center gap-2 font-bold">
@@ -95,6 +96,25 @@ const ChapterDetailsSection = async ({
             <div>
               <ChapterAcessForm
                 initialValue={chapter.isFree}
+                chapterId={params.chapterId}
+                courseId={params.courseId}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Grid col 2 section */}
+        <div>
+          <div>
+            <div className="flex items-center gap-2 text-lg font-bold">
+              <div>
+                <IconBadge icon={Video} />
+              </div>
+              <h1>Chapter Video</h1>
+            </div>
+            <div className="mt-6">
+              <ChapterVideoForm
+                initialValue={chapter.videoUrl}
                 chapterId={params.chapterId}
                 courseId={params.courseId}
               />
