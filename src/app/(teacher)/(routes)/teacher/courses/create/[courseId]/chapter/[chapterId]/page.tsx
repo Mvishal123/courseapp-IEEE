@@ -1,6 +1,6 @@
 import { getSession, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard } from "lucide-react";
 import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import { Chapter, MuxData } from "@/models/index";
@@ -9,6 +9,8 @@ import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import IconBadge from "@/components/ui/IconBadge";
 import ChapterTitleForm from "../../../_components/chapterTitleForm";
+import ChapterDescriptionForm from "../../../_components/chapterDescriptionForm";
+import ChapterAcessForm from "../../../_components/chapterAccessForm";
 
 connectDb();
 
@@ -62,14 +64,40 @@ const ChapterDetailsSection = async ({
         </div>
       </div>
       <div className="md:mt-12 mt-6 grid md:grid-cols-2 grid-cols-1">
-        <div>
-          <div className="flex items-center gap-2 font-bold">
-            <IconBadge icon={LayoutDashboard} />
-            <p className="text-xl">Customize your chapter</p>
+        <div className="flex flex-col gap-8">
+          <div>
+            <div className="flex items-center gap-2 font-bold">
+              <IconBadge icon={LayoutDashboard} />
+              <p className="text-xl">Customize your chapter</p>
+            </div>
+            <div className="mt-6">
+              <div>
+                <ChapterTitleForm
+                  initialValue={chapter.title}
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
+                />
+              </div>
+              <div>
+                <ChapterDescriptionForm
+                  initialValue={chapter.description}
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
+                />
+              </div>
+            </div>
           </div>
-          <div className="mt-6">
+          <div className="">
+            <div className="flex gap-2 items-center text-xl font-bold">
+              <IconBadge icon={Eye} />
+              <h1>Course access</h1>
+            </div>
             <div>
-              <ChapterTitleForm initialValue={chapter.title} chapterId={params.chapterId} courseId={params.courseId}/>
+              <ChapterAcessForm
+                initialValue={chapter.isFree}
+                chapterId={params.chapterId}
+                courseId={params.courseId}
+              />
             </div>
           </div>
         </div>
