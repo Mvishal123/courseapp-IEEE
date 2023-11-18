@@ -115,6 +115,7 @@ const ChapterDetailsSection = async ({
             <div className="mt-6">
               <ChapterVideoForm
                 initialValue={chapter.videoUrl}
+                playbackId={muxData && muxData.length > 0 ? muxData[0].playbackId : undefined}
                 chapterId={params.chapterId}
                 courseId={params.courseId}
               />

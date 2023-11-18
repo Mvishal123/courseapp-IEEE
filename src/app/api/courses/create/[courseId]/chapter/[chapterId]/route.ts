@@ -1,10 +1,11 @@
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import { connectDb } from "@/lib/db";
-import { Chapter } from "@/models";
+import { Chapter, MuxData } from "@/models";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/dist/server/api-utils";
 import { NextRequest, NextResponse } from "next/server";
 
+import Mux from "@mux/mux-node";
+const { Video } = new Mux(process.env.MUX_TOKEN_ID!, process.env.MUX_API_KEY!);
 connectDb();
 
 export async function PATCH(
@@ -17,7 +18,42 @@ export async function PATCH(
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const data = await req.json();
+    console.log("[DATA]", data);
+
     const chapter = await Chapter.findByIdAndUpdate(params.chapterId, data);
+
+    if (data.videoUrl) {
+      const muxData = await MuxData.findOne({ chapterId: params.chapterId });
+
+      if (muxData) {
+        chapter.muxData = chapter.muxData.remove(muxData._id);
+
+        await Video.Assets.del(muxData.assetId);
+        await MuxData.deleteOne({ _id: muxData._id });
+      }
+
+      const asset = await Video.Assets.create({
+        input: data.videoUrl,
+        playback_policy: "public",
+        test: false,
+      });
+
+      const newMuxData = await new MuxData({
+        chapterId: params.chapterId,
+        assetId: asset.id,
+        playbackId:
+          asset.playback_ids && asset.playback_ids.length > 0
+            ? asset.playback_ids[0].id
+            : null,
+      });
+
+      chapter.muxData.push(newMuxData._id);
+
+      console.log("[MUXDATA]", newMuxData);
+
+      await chapter.save();
+      await newMuxData.save();
+    }
 
     return NextResponse.json({ message: "Chapter updated" }, { status: 200 });
   } catch (error: any) {

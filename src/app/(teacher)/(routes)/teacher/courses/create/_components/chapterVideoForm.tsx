@@ -1,40 +1,45 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CameraIcon, PencilIcon, PlusCircle, Video } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ImageDropZone from "./ImageDropZone";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import MuxPlayer from "@mux/mux-player-react";
+import { chapterModelType } from "@/types";
+
 interface imageProps {
   initialValue: string;
   courseId: string;
   chapterId: string;
+  playbackId:string
 }
 
 const ChapterVideoForm = ({
   initialValue,
   courseId,
   chapterId,
+  playbackId
 }: imageProps) => {
   const [edit, setEdit] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async ({ videoUrl }: { videoUrl: string }) => {
     try {
-      toast.success(videoUrl);
-      //   const res = await axios.patch(
-      //     `/api/courses/create/${courseId}/chapter/${chapterId}`,
-      //     {
-      //       videourl: videoUrl,
-      //     }
-      //   );
-      //   toast.success("Video uploaded");
-      //   handleEdit();
+      const res = await axios.patch(
+        `/api/courses/create/${courseId}/chapter/${chapterId}`,
+        {
+          videoUrl,
+        }
+      );
+      toast.success("Video uploaded");
+      handleEdit();
       router.refresh();
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
   const handleEdit = () => setEdit((prev) => !prev);
   return (
@@ -44,16 +49,12 @@ const ChapterVideoForm = ({
           <h1 className="text-lg">Chapter video</h1>
           {!edit ? (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>
-              {!initialValue || initialValue === "undefined" ? (
+              {!initialValue ? (
                 <PlusCircle className="h-4 w-4 mr-2" />
               ) : (
                 <PencilIcon className="h-4 w-4 mr-2" />
               )}
-              <span>
-                {!initialValue || initialValue === "undefined"
-                  ? "Upload image"
-                  : "edit image"}
-              </span>
+              <span>{!initialValue ? "Upload image" : "edit image"}</span>
             </Button>
           ) : (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>
@@ -81,7 +82,11 @@ const ChapterVideoForm = ({
               />
             </div>
           )}
-          {initialValue && !edit && <div className="">Video uploaded</div>}
+          {initialValue && !edit && (
+            <div className="">
+              <MuxPlayer playbackId={playbackId} />
+            </div>
+          )}
         </div>
         {initialValue && !edit && (
           <p className="text-sm italic text-muted-foreground">
