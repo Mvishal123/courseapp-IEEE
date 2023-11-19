@@ -1,9 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Chapter } from "@/models";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import React from "react";
 import toast from "react-hot-toast";
+import ChapterDeleteDialog from "./chapterDeleteDialog";
+import { useRouter } from "next/navigation";
 
 interface ChapterActionButtonsProps {
   chapterId: string;
@@ -16,11 +19,14 @@ const ChapterActionButtons = ({
   courseId,
   isCompleted,
 }: ChapterActionButtonsProps) => {
+  const router = useRouter();
   const chapterDeleteHandler = async () => {
     try {
-      const res = await axios.delete(
-        `api/courses/create/${courseId}/chapter/${chapterId}`
+      await axios.delete(
+        `/api/courses/create/${courseId}/chapter/${chapterId}`
       );
+      toast.success("Chapter deleted successfully");
+      router.push(`/teacher/courses/create/${courseId}`);
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -30,9 +36,7 @@ const ChapterActionButtons = ({
       <Button disabled={!isCompleted} variant={"ghost"}>
         Publish
       </Button>
-      <Button size={"sm"} onClick={chapterDeleteHandler}>
-        <Trash className="w-5" />
-      </Button>
+      <ChapterDeleteDialog onDelete={chapterDeleteHandler} />
     </div>
   );
 };

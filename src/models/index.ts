@@ -117,14 +117,4 @@ export const StripeCustomer =
   mongoose.models.StripeCustomer ||
   mongoose.model("StripeCustomer", stripeCustomerSchema);
 
-//callbacks
 
-chapterSchema.post("deleteOne", async function (doc) {
-  try {
-    const user = await User.findOne({ _id: doc.userId });
-    if (!user) return;
-    user.createdCourses.pull(doc._id);
-  } catch (error) {
-    return;
-  }
-});

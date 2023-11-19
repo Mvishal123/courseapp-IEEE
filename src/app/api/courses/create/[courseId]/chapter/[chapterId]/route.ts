@@ -1,6 +1,6 @@
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import { connectDb } from "@/lib/db";
-import { Chapter, MuxData } from "@/models";
+import { Chapter, Course, MuxData } from "@/models";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -58,5 +58,50 @@ export async function PATCH(
     return NextResponse.json({ message: "Chapter updated" }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { chapterId: string; courseId: string } }
+) {
+  try {
+    const session = await getServerSession(handler);
+
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const chapter = await Chapter.findOne({
+      _id: params.chapterId,
+      courseId: params.courseId,
+    });
+
+    if (!chapter) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    await Chapter.deleteOne({ _id: params.chapterId });
+
+    const courseData = await Course.findOne({ _id: params.courseId });
+    await courseData.chapters.pull(params.chapterId);
+
+    const muxData = await MuxData.findOne({ chapterId: params.chapterId });
+    if (muxData) {
+      await Video.Assets.del(muxData.assetId);
+      console.log("[MUXDATA]", muxData);
+      await MuxData.findByIdAndDelete(muxData._id);
+    }
+
+    await courseData.save();
+
+    return NextResponse.json({ message: "Chapter deleted" }, { status: 200 });
+  } catch (error) {
+    console.log("[CHAPTER DELETE ERROR]", error);
+
+    return NextResponse.json(
+      { message: "Unable to delete the chapter" },
+      { status: 500 }
+    );
   }
 }

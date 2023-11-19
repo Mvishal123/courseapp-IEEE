@@ -54,7 +54,7 @@ const ChapterVideoForm = ({
               ) : (
                 <PencilIcon className="h-4 w-4 mr-2" />
               )}
-              <span>{!initialValue ? "Upload image" : "edit image"}</span>
+              <span>{!initialValue ? "Upload video" : "edit video"}</span>
             </Button>
           ) : (
             <Button size="sm" variant={"ghost"} onClick={handleEdit}>

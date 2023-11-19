@@ -1,4 +1,3 @@
-import { getSession, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import {
   AlertTriangle,
@@ -11,8 +10,10 @@ import { connectDb } from "@/lib/db";
 import toast from "react-hot-toast";
 import { Chapter, MuxData } from "@/models/index";
 import Link from "next/link";
+
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
+
 import IconBadge from "@/components/ui/IconBadge";
 import ChapterTitleForm from "../../../_components/chapterTitleForm";
 import ChapterDescriptionForm from "../../../_components/chapterDescriptionForm";
@@ -31,7 +32,7 @@ const ChapterDetailsSection = async ({
   const session = await getServerSession(handler);
 
   if (!session) {
-    return redirect("/signin");
+    return redirect("/");
   }
 
   const chapter = await Chapter.findOne({
@@ -51,7 +52,6 @@ const ChapterDetailsSection = async ({
   const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
   const isRemaining = requiredFields.filter(Boolean).length;
   const isCompleted = isRemaining === requiredFields.length;
-  
 
   const requiredRender = `Complete all fields (${isRemaining}/${requiredFields.length})`;
 
@@ -85,11 +85,10 @@ const ChapterDetailsSection = async ({
               </div>
             </div>
             <div>
-              <ChapterActionButtons 
+              <ChapterActionButtons
                 chapterId={params.chapterId}
                 courseId={params.courseId}
                 isCompleted={isCompleted}
-                disabled={isCompleted}
               />
             </div>
           </div>
@@ -144,8 +143,8 @@ const ChapterDetailsSection = async ({
               </div>
               <div className="mt-6">
                 <ChapterVideoForm
-                  initialValue={chapter.videoUrl}
-                  playbackId={muxData.playbackId}
+                  initialValue={chapter?.videoUrl}
+                  playbackId={muxData?.playbackId}
                   chapterId={params.chapterId}
                   courseId={params.courseId}
                 />

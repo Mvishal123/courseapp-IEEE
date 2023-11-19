@@ -14,7 +14,8 @@ const index = () => {
       <Companies />
       <hr />
       <div className="mt-12">
-        <CourseSlider />
+        {/* <CourseSlider /> */}
+        COURSES TO BE DISPLAYED
       </div>
       <br />
       <Card1 />
