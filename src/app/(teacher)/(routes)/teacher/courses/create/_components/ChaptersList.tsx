@@ -33,26 +33,26 @@ const ChaptersList = ({ onEdit, onReorder, items }: ChaptersListProps) => {
   }, [items]);
 
   const onDrageEnd = (result: DropResult) => {
-    if(!result.destination) return;
+    if (!result.destination) return;
 
     const items = Array.from(chapters);
-    const [ reorderedItem ] = items.splice(result.source.index, 1);
+    const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     const startIndex = Math.min(result.source.index, result.destination.index);
     const endIndex = Math.max(result.source.index, result.destination.index);
 
-    const updatedChapters = items.slice(startIndex, endIndex + 1)
-    
+    const updatedChapters = items.slice(startIndex, endIndex + 1);
+
     setChapters(items);
 
-    const bulkUpdateData = updatedChapters.map(chapter => ({
-        chapterId: chapter._id, 
-        position: items.findIndex(item => item._id === chapter._id)
-    }))
+    const bulkUpdateData = updatedChapters.map((chapter) => ({
+      chapterId: chapter._id,
+      position: items.findIndex((item) => item._id === chapter._id),
+    }));
 
     onReorder(bulkUpdateData);
-}
+  };
 
   if (!isMounted) return null;
 
@@ -81,7 +81,7 @@ const ChaptersList = ({ onEdit, onReorder, items }: ChaptersListProps) => {
                       className={cn(
                         "px-2 py-3 border-r border-r-slate-200 hover:bg=slate-300 rounded-l-md transition",
                         chapter.isPublished &&
-                          "border-r-sky-200 hover:bg-sky-200"
+                          "border-r-purple-200 hover:bg-purple-200"
                       )}
                       {...provided.dragHandleProps}
                     >
@@ -89,7 +89,7 @@ const ChaptersList = ({ onEdit, onReorder, items }: ChaptersListProps) => {
                     </div>
                     {chapter.title}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
-                      {chapter.isFree && <Badge>Free</Badge>}
+                      {chapter.isFree && <Badge className="bg-green-600">Free</Badge>}
                       <Badge
                         className={cn(
                           "bg-slate-500",
