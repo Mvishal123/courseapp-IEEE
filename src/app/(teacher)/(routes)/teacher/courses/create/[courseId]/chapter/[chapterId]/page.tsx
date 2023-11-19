@@ -89,6 +89,7 @@ const ChapterDetailsSection = async ({
                 chapterId={params.chapterId}
                 courseId={params.courseId}
                 isCompleted={isCompleted}
+                isPublished={chapter.isPublished}
               />
             </div>
           </div>

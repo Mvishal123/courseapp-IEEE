@@ -93,6 +93,15 @@ export async function DELETE(
       await MuxData.findByIdAndDelete(muxData._id);
     }
 
+    const allChapters = await Chapter.find({ courseId: params.courseId });
+    if (courseData.isPublished) {
+      const canPublishCheck = allChapters.some(
+        (chapter) => chapter.isPublished === true
+      );
+      if (!canPublishCheck) {
+        courseData.isPublished = false;
+      }
+    }
     await courseData.save();
 
     return NextResponse.json({ message: "Chapter deleted" }, { status: 200 });
