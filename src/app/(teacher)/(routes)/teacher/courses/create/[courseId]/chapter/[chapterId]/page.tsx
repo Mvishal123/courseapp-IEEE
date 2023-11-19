@@ -19,6 +19,7 @@ import ChapterDescriptionForm from "../../../_components/chapterDescriptionForm"
 import ChapterAcessForm from "../../../_components/chapterAccessForm";
 import ChapterVideoForm from "../../../_components/chapterVideoForm";
 import Banner from "@/components/Banner";
+import ChapterActionButtons from "../../../_components/chapterActionButton";
 
 connectDb();
 
@@ -48,10 +49,11 @@ const ChapterDetailsSection = async ({
   const muxData = await MuxData.findOne({ chapterId: params.chapterId });
 
   const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
+  const isRemaining = requiredFields.filter(Boolean).length;
+  const isCompleted = isRemaining === requiredFields.length;
+  
 
-  const isCompleted = requiredFields.filter(Boolean).length;
-
-  const requiredRender = `Complete all fields (${isCompleted}/${requiredFields.length})`;
+  const requiredRender = `Complete all fields (${isRemaining}/${requiredFields.length})`;
 
   const notPublishedLabel =
     "This chapter is not published yet and will not be visible to the users";
@@ -75,10 +77,20 @@ const ChapterDetailsSection = async ({
               </div>
             </Link>
           </div>
-          <div className="mt-4 flex-col">
-            <h1 className="text-4xl font-bold">Create chapter</h1>
-            <div className="text-sm mt-2 text-slate-600 italic">
-              {requiredRender}
+          <div className="flex justify-between items-center">
+            <div className="mt-4 flex-col">
+              <h1 className="text-4xl font-bold">Create chapter</h1>
+              <div className="text-sm mt-2 text-slate-600 italic">
+                {requiredRender}
+              </div>
+            </div>
+            <div>
+              <ChapterActionButtons 
+                chapterId={params.chapterId}
+                courseId={params.courseId}
+                isCompleted={isCompleted}
+                disabled={isCompleted}
+              />
             </div>
           </div>
         </div>

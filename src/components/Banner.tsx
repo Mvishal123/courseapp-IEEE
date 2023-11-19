@@ -9,7 +9,7 @@ interface BannerProps {
 }
 
 const Banner = ({ label, icon: Icon, status }: BannerProps) => {
-  return <div className={cn("p-2 flex items-center justify-center gap-2", status === "warning" ? "bg-yellow-200/50": "bg-purple-600/50")}>
+  return <div className={cn("p-2 flex items-center justify-center gap-2 border-1 border text-sm md:text-md px-3", status === "warning" ? "bg-yellow-200/50": "bg-purple-600/50")}>
     <Icon className="w-4 h-4"/>
     {label}
   </div>;

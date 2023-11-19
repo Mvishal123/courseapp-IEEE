@@ -14,14 +14,14 @@ interface imageProps {
   initialValue: string;
   courseId: string;
   chapterId: string;
-  playbackId:string
+  playbackId: string;
 }
 
 const ChapterVideoForm = ({
   initialValue,
   courseId,
   chapterId,
-  playbackId
+  playbackId,
 }: imageProps) => {
   const [edit, setEdit] = useState(false);
   const router = useRouter();
