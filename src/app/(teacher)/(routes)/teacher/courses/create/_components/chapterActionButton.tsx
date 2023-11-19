@@ -44,7 +44,7 @@ const ChapterActionButtons = ({
       await axios.put(
         `/api/courses/create/${courseId}/chapter/${chapterId}/publish`
       );
-      toast.success("Chapter published successfully");
+      toast.success("Chapter unpublished successfully");
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");

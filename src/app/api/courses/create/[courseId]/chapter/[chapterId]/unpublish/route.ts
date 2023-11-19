@@ -3,11 +3,14 @@ import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import { Chapter, Course } from "@/models";
 
-export async function PUT({
-  params,
-}: {
-  params: { chapterId: string; courseId: string };
-}) {
+export async function PUT(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { chapterId: string; courseId: string };
+  }
+) {
   try {
     const session = await getServerSession(handler);
     if (!session?.user) {
