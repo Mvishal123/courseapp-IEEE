@@ -10,7 +10,13 @@ import PriceSection from "../_components/priceForm";
 import CategorySection from "../_components/categoryForm";
 
 import IconBadge from "@/components/ui/IconBadge";
-import { DollarSign, File, LayoutDashboard, ListTodo } from "lucide-react";
+import {
+  AlertTriangle,
+  DollarSign,
+  File,
+  LayoutDashboard,
+  ListTodo,
+} from "lucide-react";
 import AttachmentsSection from "../_components/attachementsForm";
 import ChapterSection from "../_components/chapterForm";
 import { redirect } from "next/navigation";
@@ -19,6 +25,7 @@ import toast from "react-hot-toast";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import CourseActionButton from "../_components/courseActionButton";
+import Banner from "@/components/Banner";
 
 connectDb();
 
@@ -67,6 +74,13 @@ const CourseCreatePage = async ({
 
     return (
       <div>
+        {!course.isPublished && (
+          <Banner
+            label="This course is not published yet and will not be visible to the users"
+            icon={AlertTriangle}
+            status="warning"
+          />
+        )}
         <div className="container pt-6">
           <div className="flex justify-between items-center">
             <div>

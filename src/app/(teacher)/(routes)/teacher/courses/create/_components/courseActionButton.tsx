@@ -1,22 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Chapter } from "@/models";
 import axios from "axios";
-import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import ChapterDeleteDialog from "./chapterDeleteDialog";
 import { useRouter } from "next/navigation";
+import CourseDeleteDialog from "./courseDeleteDialog";
 
 interface CourseActionButtonProps {
-  chapterId: string;
   courseId: string;
   isCompleted: boolean;
   isPublished: boolean;
 }
 
 const CourseActionButton = ({
-  chapterId,
   courseId,
   isCompleted,
   isPublished,
@@ -25,11 +21,9 @@ const CourseActionButton = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const chapterDeleteHandler = async () => {
+  const courseDeleteHandler = async () => {
     try {
-      await axios.delete(
-        `/api/courses/create/${courseId}`
-      );
+      await axios.delete(`/api/courses/create/${courseId}`);
       toast.success("Course deleted successfully");
       router.push(`/teacher/courses/`);
       router.refresh();
@@ -41,10 +35,8 @@ const CourseActionButton = ({
   const publishHandler = async () => {
     try {
       setIsLoading(true);
-      await axios.put(
-        `/api/courses/create/${courseId}/chapter/${chapterId}/publish`
-      );
-      toast.success("Chapter published successfully");
+      await axios.put(`/api/courses/create/${courseId}/publish`);
+      toast.success("Course published successfully");
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
@@ -56,10 +48,8 @@ const CourseActionButton = ({
   const unpublishHandler = async () => {
     try {
       setIsLoading(true);
-      await axios.put(
-        `/api/courses/create/${courseId}/chapter/${chapterId}/unpublish`
-      );
-      toast.success("Chapter unpublished successfully");
+      await axios.put(`/api/courses/create/${courseId}/unpublish`);
+      toast.success("Course unpublished successfully");
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
@@ -89,7 +79,7 @@ const CourseActionButton = ({
         </Button>
       )}
 
-      <ChapterDeleteDialog onDelete={chapterDeleteHandler} />
+      <CourseDeleteDialog onDelete={courseDeleteHandler} />
     </div>
   );
 };
