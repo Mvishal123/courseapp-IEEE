@@ -68,7 +68,7 @@ const ChapterDetailsSection = async ({
         />
       ) : null}
       <div className="container mt-6">
-        <div>
+        <div >
           <div className="flex items-center justify-between w-full text-sm">
             <Link href={`/teacher/courses/create/${params.courseId}`}>
               <div className="flex gap-2 items-center text-slate-800 hover:text-slate-600 cursor-pointer">

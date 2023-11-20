@@ -8,19 +8,19 @@ import toast from "react-hot-toast";
 import ChapterDeleteDialog from "./chapterDeleteDialog";
 import { useRouter } from "next/navigation";
 
-interface ChapterActionButtonsProps {
+interface CourseActionButtonProps {
   chapterId: string;
   courseId: string;
   isCompleted: boolean;
   isPublished: boolean;
 }
 
-const ChapterActionButtons = ({
+const CourseActionButton = ({
   chapterId,
   courseId,
   isCompleted,
   isPublished,
-}: ChapterActionButtonsProps) => {
+}: CourseActionButtonProps) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -28,10 +28,10 @@ const ChapterActionButtons = ({
   const chapterDeleteHandler = async () => {
     try {
       await axios.delete(
-        `/api/courses/create/${courseId}/chapter/${chapterId}`
+        `/api/courses/create/${courseId}`
       );
-      toast.success("Chapter deleted successfully");
-      router.push(`/teacher/courses/create/${courseId}`);
+      toast.success("Course deleted successfully");
+      router.push(`/teacher/courses/`);
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
@@ -94,4 +94,4 @@ const ChapterActionButtons = ({
   );
 };
 
-export default ChapterActionButtons;
+export default CourseActionButton;

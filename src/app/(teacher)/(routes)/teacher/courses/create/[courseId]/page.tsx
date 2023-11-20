@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
+import CourseActionButton from "../_components/courseActionButton";
 
 connectDb();
 
@@ -62,17 +63,27 @@ const CourseCreatePage = async ({
     }));
 
     const completed = tasks.filter(Boolean).length;
+    const isCompleted = tasks.every(Boolean);
 
     return (
       <div>
         <div className="container pt-6">
-          <div>
-            <h1 className="text-4xl font-bold md:text-5xl">
-              Create a new course
-            </h1>
-            <p className="text-sm mt-2 text-muted-foreground">
-              Fields remaining {completed}/{tasks.length}
-            </p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold md:text-4xl">
+                Create a new course
+              </h1>
+              <p className="text-sm mt-2 text-muted-foreground">
+                Fields remaining {completed}/{tasks.length}
+              </p>
+            </div>
+            <div>
+              <CourseActionButton
+                courseId={`${course._id}`}
+                isCompleted={isCompleted}
+                isPublished={course.isPublished}
+              />
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 md:mt-20 mt-5 gap-x-10">
             <div className="flex flex-col gap-10">
