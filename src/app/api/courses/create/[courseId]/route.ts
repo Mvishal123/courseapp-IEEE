@@ -63,7 +63,7 @@ export async function DELETE(
       const muxData = await MuxData.findOne({ chapterId: chapter._id });
       console.log("[muxData]: ", muxData);
       if (muxData) {
-        await Video.Assets.del(muxData.assetId);
+        // await Video.Assets.del(muxData.assetId);
         await MuxData.deleteOne({ _id: muxData._id });
       }
     }
