@@ -27,6 +27,7 @@ const CoursesCategorySlider = ({
         url: pathname,
         query: {
           categoryId: isSelected ? null : value,
+          title: currentTitle
         },
       },
       { skipEmptyString: true, skipNull: true }

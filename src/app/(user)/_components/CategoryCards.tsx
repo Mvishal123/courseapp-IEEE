@@ -26,6 +26,7 @@ const CategoryCards = ({ label, value }: CategoryCardsProps) => {
         url: pathname,
         query: {
           categoryId: isSelected ? null : value,
+          title: currentTitle,
         },
       },
       {
