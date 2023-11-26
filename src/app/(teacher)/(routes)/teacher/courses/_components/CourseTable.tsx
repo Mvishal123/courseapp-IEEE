@@ -2,22 +2,30 @@ import { Badge } from "@/components/ui/badge";
 import { currencyConverter } from "@/helper/currencyConverter";
 import { Course, User } from "@/models";
 import { CourseData } from "@/types";
-import { Edit } from "lucide-react";
+import { Book, BookCopy, Edit } from "lucide-react";
 import Link from "next/link";
 
 const CourseTable = async ({email}: any) => {
   const user = await User.findOne({ email: email});
   let courses = await Course.find({ userId: user._id });
 
+
+  if(courses.length === 0) {
+    return(
+      <div>
+        Empty
+      </div>
+    )
+  }
   console.log("courses", courses);
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between p-4 font-bold rounded-md">
-        <div style={{ minWidth: "200px" }}>Title</div>
+        <div className="flex min-w-[200px] gap-1"><Book className="w-4"/> Title</div>
         <div className="flex gap-6">
           <span style={{ minWidth: "80px" }}>Price</span>
           <span style={{ minWidth: "120px" }}>Is Published</span>
-          <span style={{ minWidth: "40px" }}>Edit</span>
+          <span style={{ minWidth: "40px" }}/>
         </div>
       </div>
       {courses.map((course: any) => (

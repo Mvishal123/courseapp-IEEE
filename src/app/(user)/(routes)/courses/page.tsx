@@ -1,9 +1,8 @@
-// "use client";
-// import { useState, useEffect } from "react";
-// import axios from "axios";
 import { CourseData } from "@/types";
 import CourseCard from "@/components/CourseCard";
 import { BASE_URL } from "@/config";
+import CoursesCategorySlider from "../../_components/CoursesCategorySlider";
+import { CourseCategory } from "@/models";
 
 const getCourses = async () => {
   const courses = await fetch(`${BASE_URL}/api/courses`, {
@@ -16,26 +15,36 @@ const getCourses = async () => {
 const page = async () => {
   const courses: CourseData[] = await getCourses();
 
+  const categories = await CourseCategory.find({});
+
   return (
-    <main className="pt-20 container">
-      <h1 className="text-4xl font-extrabold text-center">All courses</h1>
-      <br />
-      <hr />
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full place-items-center space-y-20">
-        {courses.map((course) => (
-          <div
-            key={course._id}
-            className="min-w-[200px] lg:w-[300px] sm:w-[250px] max-w-[300px]"
-          >
-            <CourseCard
-              title={course.title}
-              teacher={course.teacher}
-              price={course.price}
-              description={course.description}
-              image={course.image}
-            />
-          </div>
+    <main className="">
+      <div className="flex gap-3 overflow-x-scroll no-scrollbar px-3 justify-center">
+        {categories.map((category :any, index) => (
+          <CoursesCategorySlider label={category.category} value={category._id} key={index}/>
         ))}
+        
+      </div>
+      <div className="container mt-6">
+        <h1 className="text-4xl font-extrabold text-center">All courses</h1>
+        <br />
+        <hr />
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full place-items-center space-y-20">
+          {courses.map((course) => (
+            <div
+              key={course._id}
+              className="min-w-[200px] lg:w-[300px] sm:w-[250px] max-w-[300px]"
+            >
+              <CourseCard
+                title={course.title}
+                teacher={course.teacher}
+                price={course.price}
+                description={course.description}
+                image={course.image}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
