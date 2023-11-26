@@ -31,6 +31,7 @@ const handler: NextAuthOptions = NextAuth({
 
           await connectDb();
           const user = await User.findOne({ email: credentials.email });
+          // console.log("authorize callback", { user, credentials });
 
           if (!user) {
             throw new Error("User not found.");
@@ -44,22 +45,25 @@ const handler: NextAuthOptions = NextAuth({
           if (!isPasswordValid) {
             throw new Error("Invalid password.");
           }
-
           return user;
         } catch (error: any) {
-          console.error("Authorization error:", error.message);
+          // console.error("Authorization error:", error.message);
           return false;
         }
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET!,
-  debug: process.env.NODE_ENV === "development",
   callbacks: {
-    async session({ session }) {
+    async jwt({ session, token, user }) {
+      // console.log("jwt callback", { session, token, user });
+      await connectDb();
+      const data = await User.findOne({ email: session?.user?.email });
+      // console.log("jwt callback", { data });
+    
+
+      return token;
+    },
+    async session({ session, token }) {
       try {
         await connectDb();
         const user = await User.findOne({ email: session?.user?.email });
@@ -70,15 +74,17 @@ const handler: NextAuthOptions = NextAuth({
       } catch (error: any) {
         toast.error(error.message);
       }
+      // console.log("session callback", session);
+
       return session;
     },
 
     async signIn({ profile }) {
       try {
         await connectDb();
-        const isUser = await User.findOne({ email: profile?.email });
+        const user = await User.findOne({ email: profile?.email });
 
-        if (!isUser) {
+        if (!user) {
           const newUser = await new User({
             username: profile?.name,
             email: profile?.email,
@@ -87,13 +93,19 @@ const handler: NextAuthOptions = NextAuth({
           });
           await newUser.save();
         }
+
+        return true;
       } catch (error: any) {
-        console.error("Sign-in error:", error.message);
+        // console.error("Sign-in error:", error.message);
         return false;
       }
-      return true;
     },
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET!,
+  debug: process.env.NODE_ENV === "development",
 });
 
 export { handler as GET, handler as POST, handler };
