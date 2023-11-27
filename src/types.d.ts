@@ -2,7 +2,7 @@ export interface CourseData {
     _id?: string,
     title?: String,
     description?: String,
-    price?: String,
+    price: String,
     image?: String,
     category?: string
     teacher?: String,

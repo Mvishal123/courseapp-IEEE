@@ -77,8 +77,8 @@ const DescriptionSection = ({ initialValue, courseId }: PageProps) => {
         {!isEdit && (
           <h1
             className={cn(
-              "font-bold text-md",
-              !initialValue && " text-slate-500 font-medium text-sm "
+              "font-light text-md",
+              !initialValue && " text-slate-500 italic text-sm "
             )}
           >
             {!initialValue ||

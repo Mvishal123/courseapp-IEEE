@@ -37,7 +37,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     return <div></div>;
   } else {
     console.log("SESSION", session.user.email);
-    
+
     let query: query = {
       isPublished: true,
     };
@@ -99,7 +99,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
               no courses
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-4 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 mt-3 gap-8">
             {renderCourses.map((course: any, i) => (
               <CourseCard data={course.toObject()} key={i} />
             ))}

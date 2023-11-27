@@ -44,23 +44,22 @@ const CategorySection = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialValue ? initialValue : "",
+      categoryId: initialValue || "", // Ensure initial value is truthy
     },
   });
 
   const handleEdit = () => setIsEdit((prev) => !prev);
 
-  const selectedOptions = options.find(
+  const selectedOption = options.find(
     (option) => option.value === initialValue
   );
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      // console.log(data);
       const res = await axios.patch(`/api/courses/create/${courseId}`, {
         category: data.categoryId,
       });
-      toast.success("category added successfully");
+      toast.success("Category added successfully");
       handleEdit();
       router.refresh();
     } catch (error: any) {
@@ -72,68 +71,42 @@ const CategorySection = ({
     <div className="mt-4 rounded-lg bg-slate-100 px-4 py-2">
       <div className="flex justify-between items-center">
         <h1 className="text-lg">Course Category</h1>
-        {!isEdit ? (
-          <Button variant={"ghost"} onClick={handleEdit}>
-            {initialValue && initialValue !== "undefined" ? (
-              <Pencil className="h-4 w-4 mr-2" />
-            ) : (
-              <PlusCircle className="h-4 w-4 mr-2" />
-            )}
-            <span className="text-sm">
-              {initialValue && initialValue !== "undefined"
-                ? "Edit Category"
-                : "add category"}
-            </span>
-          </Button>
-        ) : (
-          <Button variant={"ghost"} onClick={handleEdit}>
-            Cancel
-          </Button>
-        )}
+        <Button variant={"ghost"} onClick={handleEdit}>
+          {isEdit ? "Cancel" : "Edit Category"}
+        </Button>
       </div>
       <div className="mt-6">
-        {!isEdit && (
-          <h1
-            className={cn(
-              "font-bold text-md",
-              !initialValue && " text-slate-500 font-medium text-sm "
-            )}
-          >
-            {!initialValue || (initialValue === "undefined" && "no category")}
-            {initialValue && initialValue !== "undefined" && (
-              <p>{selectedOptions?.label}</p>
-            )}
+        {isEdit ? (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                name="categoryId"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ComboboxDemo options={options} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="mt-3"
+                disabled={
+                  form.formState.isLoading ||
+                  !form.formState.isValid ||
+                  form.formState.isSubmitting
+                }
+              >
+                Save
+              </Button>
+            </form>
+          </Form>
+        ) : (
+          <h1 className="font-bold text-md">
+            {initialValue ? selectedOption?.value : "No Category"}
           </h1>
-        )}
-        {isEdit && (
-          <div>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                  name="categoryId"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <ComboboxDemo options={options} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  className="mt-3"
-                  disabled={
-                    form.formState.isLoading ||
-                    !form.formState.isValid ||
-                    form.formState.isSubmitting
-                  }
-                >
-                  Save
-                </Button>
-              </form>
-            </Form>
-          </div>
         )}
       </div>
     </div>
