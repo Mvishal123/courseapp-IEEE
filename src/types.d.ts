@@ -4,6 +4,7 @@ export interface CourseData {
     description?: String,
     price?: String,
     image?: String,
+    category?: string
     teacher?: String,
     stars?: Number,
     level?: String,
