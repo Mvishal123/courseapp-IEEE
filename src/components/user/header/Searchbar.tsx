@@ -30,7 +30,7 @@ function Searchbar() {
     router.push(url);
   }, [value, currentCategory, pathname, debounceValue]);
   return (
-    <div className="flex items-center rounded-full border border-black py-1 w-full">
+    <div className="flex items-center rounded-full border ring-1 ring-slate-300 bg-slate-100 py-1 w-full">
       <span className="pl-2">
         <Search className="text-slate-600 w-4 h-4" />
       </span>

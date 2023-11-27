@@ -25,9 +25,9 @@ const courseSchema = new mongoose.Schema({
   image: String,
 
   teacher: String,
-  stars: Number,
+  stars: [{ user: mongoose.Schema.Types.ObjectId, star: Number }],
   level: String,
-  reviews: [String],
+  reviews: [{ user: String, review: String }],
 
   attachments: [String],
   chapters: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }],
@@ -116,5 +116,3 @@ export const Purchases =
 export const StripeCustomer =
   mongoose.models.StripeCustomer ||
   mongoose.model("StripeCustomer", stripeCustomerSchema);
-
-

@@ -2,19 +2,64 @@ import { CourseData } from "@/types";
 import CourseCard from "@/components/CourseCard";
 import { BASE_URL } from "@/config";
 import CoursesCategorySlider from "../../_components/CoursesCategorySlider";
-import { CourseCategory } from "@/models";
+import { Course, CourseCategory } from "@/models";
 import Searchbar from "@/components/user/header/Searchbar";
+import { getServerSession } from "next-auth";
+import { handler } from "@/app/api/auth/[...nextauth]/route";
 
-const getCourses = async () => {
-  const courses = await fetch(`${BASE_URL}/api/courses`, {
-    cache: "no-cache",
-  });
+// const getCourses = async () => {
+//   const courses = await fetch(`${BASE_URL}/api/courses`, {
+//     cache: "no-cache",
+//   });
 
-  return courses.json();
-};
+//   return courses.json();
+// };
+interface SearchParamsProps {
+  searchParams: {
+    title: string;
+    categoryId: string;
+  };
+}
 
-const page = async () => {
-  const courses: CourseData[] = await getCourses();
+interface query {
+  isPublished: boolean;
+  title?: Object;
+  category?: string;
+}
+
+const page = async ({ searchParams }: SearchParamsProps) => {
+  // const courses: CourseData[] = await getCourses();
+  const session = getServerSession(handler);
+  console.log(searchParams.categoryId);
+  console.log(searchParams.title);
+
+  if (!session) {
+    return <div></div>;
+  }
+
+  let query: query = {
+    isPublished: true,
+  };
+  
+  if (searchParams.categoryId) {
+    query.category = searchParams.categoryId;
+  }
+  
+  if (searchParams.title) {
+    const titleQuery = {
+      $or: [
+        { title: { $regex: new RegExp(searchParams.title, "i") } },
+        { description: { $regex: new RegExp(searchParams.title, "i") } },
+      ],
+    };
+  
+    console.log("titleQuery: ", titleQuery);
+    query = { ...query, ...titleQuery };
+  }
+  
+  const courses = await Course.find(query);
+  console.log("COURSES", courses);
+  
 
   const categories = await CourseCategory.find({});
 
@@ -24,16 +69,19 @@ const page = async () => {
         <Searchbar />
       </div>
       <div className="flex gap-3 overflow-x-scroll no-scrollbar px-3 mt-4">
-        {categories.map((category :any, index) => (
-          <CoursesCategorySlider label={category.category} value={category._id} key={index}/>
+        {categories.map((category: any, index) => (
+          <CoursesCategorySlider
+            label={category.category}
+            value={category._id}
+            key={index}
+          />
         ))}
-        
       </div>
       <div className="container mt-6">
         <h1 className="text-4xl font-extrabold text-center">All courses</h1>
         <br />
         <hr />
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full place-items-center space-y-20">
+        {/* <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full place-items-center space-y-20">
           {courses.map((course) => (
             <div
               key={course._id}
@@ -48,7 +96,8 @@ const page = async () => {
               />
             </div>
           ))}
-        </div>
+        </div> */}
+        {courses.toString()}
       </div>
     </main>
   );

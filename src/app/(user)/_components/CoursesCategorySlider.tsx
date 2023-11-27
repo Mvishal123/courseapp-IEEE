@@ -20,13 +20,13 @@ const CoursesCategorySlider = ({
   const cuurentCategory = searchParams.get("categoryId");
   const currentTitle = searchParams.get("title");
 
-  const isSelected = cuurentCategory === value;
+  const isSelected = cuurentCategory === label;
   const onCLick = () => {
     const url = qs.stringifyUrl(
       {
         url: pathname,
         query: {
-          categoryId: isSelected ? null : value,
+          categoryId: isSelected ? null : label,
           title: currentTitle
         },
       },

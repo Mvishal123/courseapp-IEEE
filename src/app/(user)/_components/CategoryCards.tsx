@@ -18,14 +18,14 @@ const CategoryCards = ({ label, value }: CategoryCardsProps) => {
   const currentCategory = searchParams.get("categoryId");
   const currentTitle = searchParams.get("title");
 
-  const isSelected = currentCategory === value;
+  const isSelected = currentCategory === label;
 
   const onClick = () => {
     const url = qs.stringifyUrl(
       {
         url: pathname,
         query: {
-          categoryId: isSelected ? null : value,
+          categoryId: isSelected ? null : label,
           title: currentTitle,
         },
       },
