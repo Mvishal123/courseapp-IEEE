@@ -37,7 +37,7 @@ const CoursesCategorySlider = ({
   return (
     <div
       className={cn(
-        "bg-slate-200 px-4 rounded-full border border-slate-400 cursor-pointer",
+        "bg-slate-200 md:px-4 px-1 text-sm md:text-md rounded-full border border-slate-400 cursor-pointer",
         isSelected && "border border-purple-700 bg-purple-200"
       )}
       onClick={onCLick}

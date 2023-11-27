@@ -3,6 +3,7 @@ import CourseCard from "@/components/CourseCard";
 import { BASE_URL } from "@/config";
 import CoursesCategorySlider from "../../_components/CoursesCategorySlider";
 import { CourseCategory } from "@/models";
+import Searchbar from "@/components/user/header/Searchbar";
 
 const getCourses = async () => {
   const courses = await fetch(`${BASE_URL}/api/courses`, {
@@ -19,7 +20,10 @@ const page = async () => {
 
   return (
     <main className="">
-      <div className="flex gap-3 overflow-x-scroll no-scrollbar px-3 justify-center">
+      <div className="lg:hidden block w-1/2 mx-auto">
+        <Searchbar />
+      </div>
+      <div className="flex gap-3 overflow-x-scroll no-scrollbar px-3 mt-4">
         {categories.map((category :any, index) => (
           <CoursesCategorySlider label={category.category} value={category._id} key={index}/>
         ))}
