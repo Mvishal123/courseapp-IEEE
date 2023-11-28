@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <div className="bg-[#ffffff] ">
+      <div className="">
         <UserHeader />
       </div>
       <div>{children}</div>

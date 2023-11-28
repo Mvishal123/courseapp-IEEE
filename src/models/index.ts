@@ -77,7 +77,7 @@ const userProgressSchema = new mongoose.Schema(
 const purchasesSchema = new mongoose.Schema(
   {
     userId: String,
-    courseId: String,
+    courseId: {type: mongoose.Schema.Types.ObjectId, ref: "Course"},
   },
   { timestamps: true }
 );

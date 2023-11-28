@@ -1,7 +1,7 @@
 export const currencyConverter = (price: number) => {
-  const convertedPrice = Intl.NumberFormat("en-US", {
+  const convertedPrice = Intl.NumberFormat("en-IN", {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
   }).format(price);
   return convertedPrice;
 };
