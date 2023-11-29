@@ -54,8 +54,8 @@ function UserHeader() {
       </div>
 
       <div className="hidden lg:flex justify-center items-center gap-6">
-        {routes.map((route) => (
-          <MenuButtons name={route.name} icon={route.icon} dir={route.dir} />
+        {routes.map((route, index) => (
+          <MenuButtons name={route.name} icon={route.icon} dir={route.dir} key={index}/>
         ))}
       </div>
       <div>
