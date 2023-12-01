@@ -14,7 +14,7 @@ function UserHeader() {
   const router = useRouter();
 
   return (
-    <header className="py-5 flex justify-between items-center w-full container">
+    <header className="py-5 flex justify-between items-center w-full container z-50">
       <MenuHeader />
       <h1 className="text-4xl font-extrabold text-slate-800 cursor-pointer">
         Skill<span className="text-[#7b2cbf]">Sphere</span>
