@@ -12,8 +12,9 @@ import React from "react";
 const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
   const session = await getServerSession(handler);
 
-  const course = await Course.findOne({ _id: params.courseId }).populate("chapters");
-  
+  const course = await Course.findOne({ _id: params.courseId }).populate(
+    "chapters"
+  );
 
   const numberReviews = course?.reviews.length;
 
@@ -48,7 +49,7 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
           </div>
           <div className="hidden md:relative md:flex justify-center items-center md:pl-8">
             <div className="absolute md:top-[90px] shadow-[0_0_2px_2px] rounded-md">
-              <div className="aspect-video w-96 overflow-hidden">
+              <div className="aspect-video md:w-80 lg:w-96 overflow-hidden">
                 <Image
                   src={course.image}
                   layout="fill"
@@ -92,7 +93,7 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
             </div>
             <div className="">
               <h2 className="text-lg font-semibold">Course contents</h2>
-              <CourseChapterView chapters={course.chapters.toObject()}/>
+              <CourseChapterView chapters={course.chapters.toObject()} />
             </div>
           </div>
         </div>
