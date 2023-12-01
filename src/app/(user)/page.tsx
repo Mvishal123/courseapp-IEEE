@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import { InitUser } from "@/components/InitUser";
 import Companies from "@/components/user/Companies";
 import CourseSlider from "@/components/user/CourseSlider";
 import HeroUser from "@/components/user/Hero";
@@ -7,13 +6,14 @@ import Card1 from "@/components/user/landing/Card1";
 import { CourseCategory } from "@/models";
 import React from "react";
 import CategoryCards from "./_components/CategoryCards";
+import { connectDb } from "@/lib/db";
 
-const index = async () => {
-  const categories = await CourseCategory.find({});
+const HomePage = async () => {
+  await connectDb();
+  const categories = await CourseCategory.find({}); 
 
   return (
     <div className="">
-      <InitUser />
       <HeroUser />
       <Companies />
       <hr />
@@ -45,4 +45,4 @@ const index = async () => {
   );
 };
 
-export default index;
+export default HomePage;

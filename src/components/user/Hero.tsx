@@ -12,8 +12,8 @@ const HeroUser = () => {
             </h1>
             <p className="text-slate-600 text-xl md:pt-3">spend around 30 minutes a day skyrocket your career</p>
           </div>
-          <div className="flex justify-center items-">
-            <Image src="/landing/Teacher.png" alt="teacher" className="md:h-[400px] h-[200px] mt-10 md:m-0" />
+          <div className="flex justify-center h-80 md:h-96">
+            <Image src="/landing/Teacher.png" alt="teacher" className="mt-10 md:m-0" width={400} height={80}/>
           </div>
         </div>
       </div>
