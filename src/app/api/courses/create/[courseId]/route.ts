@@ -4,7 +4,6 @@ import { Chapter, Course, MuxData } from "@/models";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import Mux from "@mux/mux-node";
-import { LucideAward } from "lucide-react";
 
 connectDb();
 
@@ -70,7 +69,7 @@ export async function DELETE(
 
     await Chapter.deleteMany({ courseId: params.courseId });
 
-    await Course.deleteOne({ _id: params.courseId});
+    await Course.deleteOne({ _id: params.courseId });
 
     return NextResponse.json({ message: "Course deleted" }, { status: 200 });
   } catch (error: any) {

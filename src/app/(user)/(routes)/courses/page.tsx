@@ -7,13 +7,6 @@ import Searchbar from "@/components/user/header/Searchbar";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 
-// const getCourses = async () => {
-//   const courses = await fetch(`${BASE_URL}/api/courses`, {
-//     cache: "no-cache",
-//   });
-
-//   return courses.json();
-// };
 interface SearchParamsProps {
   searchParams: {
     title: string;

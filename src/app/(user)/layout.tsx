@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <div className="z-50">
+      <div className="">
         <UserHeader />
       </div>
       <div>{children}</div>
