@@ -6,6 +6,7 @@ import { Course, CourseCategory, User } from "@/models";
 import Searchbar from "@/components/user/header/Searchbar";
 import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
+import { LoaderIcon } from "react-hot-toast";
 
 interface SearchParamsProps {
   searchParams: {
@@ -23,8 +24,13 @@ interface query {
 const page = async ({ searchParams }: SearchParamsProps) => {
   // const courses: CourseData[] = await getCourses();
   const session = await getServerSession(handler);
-  console.log(searchParams.categoryId);
-  console.log(searchParams.title);
+  if (!session) {
+    return (
+      <div>
+        <LoaderIcon />
+      </div>
+    );
+  }
 
   let query: query = {
     isPublished: true,
