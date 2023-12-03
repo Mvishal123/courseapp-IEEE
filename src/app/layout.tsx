@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import RecoilProvider from "@/components/providers/RecoilProvider";
 import AuthProvider from "@/components/providers/SessionProvider";
-import { InitUser } from "@/components/InitUser";
 import ToastProvider from "@/components/providers/ToastProvider";
 
 export const metadata: Metadata = {
