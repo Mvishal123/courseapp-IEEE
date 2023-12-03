@@ -12,9 +12,9 @@ interface Course {
   title: string;
   teacher: string;
   price: string;
-  category?: string;
+  category: string;
   description: string;
-  image?: string;
+  image: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -74,7 +74,14 @@ function Coursecard() {
                   router.push(`/user/courses/${course._id}`);
                 }}
               >
-                <CourseCard image={course.image} teacher={course.teacher} title={course.title} price={course.price}/>
+                <CourseCard
+                  image={course.image}
+                  teacher={course.teacher}
+                  title={course.title}
+                  price={course.price}
+                  id={course._id}
+                  category={course.category}
+                />
               </div>
             );
           })}
