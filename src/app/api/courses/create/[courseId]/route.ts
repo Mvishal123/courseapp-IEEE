@@ -11,7 +11,7 @@ connectDb();
 const { Video } = new Mux(process.env.MUX_TOKEN_ID!, process.env.MUX_API_KEY!);
 
 export async function PATCH(
-  req: NextResponse,
+  req: NextRequest,
   { params }: { params: { courseId: string } }
 ) {
   try {

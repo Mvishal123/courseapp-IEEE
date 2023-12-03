@@ -7,9 +7,11 @@ const Companies = () => {
         Trusted by with industry leaders
       </h1>
       <div className="grid grid-cols-5 gap-8 px-20 py-8 place-items-center">
-        <img
+        <Image
           src="https://cdn-icons-png.flaticon.com/128/731/731970.png"
-          alt=""
+          alt="company"
+          height={50}
+          width={65}
           className="h-10 sm:h-20 hover:scale-110"
         />
         <Image
