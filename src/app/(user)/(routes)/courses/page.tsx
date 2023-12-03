@@ -22,16 +22,6 @@ interface query {
 }
 
 const page = async ({ searchParams }: SearchParamsProps) => {
-  // const courses: CourseData[] = await getCourses();
-  const session = await getServerSession(handler);
-  if (!session) {
-    return (
-      <div>
-        <LoaderIcon />
-      </div>
-    );
-  }
-
   let query: query = {
     isPublished: true,
   };
@@ -54,18 +44,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
 
   const courses = await Course.find(query);
   console.log("COURSES", courses);
-
-  const user = await User.findOne({ email: session?.user?.email });
-  console.log("USER", user);
-
-  let renderCourses;
-  {
-    user.mycourses
-      ? (renderCourses = courses.filter(
-          (course: any) => !user.mycourses.includes(course._id)
-        ))
-      : (renderCourses = courses);
-  }
 
   const categories = await CourseCategory.find({});
 
@@ -94,7 +72,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-4 mt-3 gap-8">
-          {renderCourses.map((course: any, i) => (
+          {courses.map((course: any, i) => (
             <CourseCard data={course.toObject()} key={i} />
           ))}
         </div>
