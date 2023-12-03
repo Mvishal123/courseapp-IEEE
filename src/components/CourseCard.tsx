@@ -1,22 +1,22 @@
 import { currencyConverter } from "@/helper/currencyConverter";
-import { CourseData } from "@/types";
 import { Rating } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
 interface CourseCardProps {
-  image: string;
-  title: string;
-  price: string;
-  teacher: string;
-  id: string;
-  category:string;
+  data: {
+    image: string;
+    title: string;
+    price: string;
+    teacher: string;
+    id: string;
+    category: string;
+  };
 }
 
-const CourseCard = ({ image, title, price, teacher, id, category }: CourseCardProps) => {
-
-  // const starCount = data.stars.length !== 0 ?  
-
+const CourseCard = ({ data }: CourseCardProps) => {
+  // const starCount = data.stars.length !== 0 ?
+  const { image, title, price, teacher, id, category } = data;
   return (
     <div className="w-full border p-2 rounded-md hover:shadow-sm cursor-pointer">
       <Link href={`/courses/${id}`}>
@@ -39,7 +39,7 @@ const CourseCard = ({ image, title, price, teacher, id, category }: CourseCardPr
               {currencyConverter(parseFloat(data.price))}
             </div>
             <div className="">
-              <Rating readOnly value={0} size="small"/>
+              <Rating readOnly value={0} size="small" />
             </div>
           </div>
         </div>
