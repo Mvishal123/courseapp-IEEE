@@ -28,7 +28,7 @@ function Searchbar() {
     );
 
     router.push(url);
-  }, [value, currentCategory, pathname, debounceValue]);
+  }, [value, currentCategory, pathname, debounceValue, router]);
   return (
     <div className="flex items-center rounded-full border ring-1 ring-slate-300 bg-slate-100 py-1 w-full">
       <span className="pl-2">

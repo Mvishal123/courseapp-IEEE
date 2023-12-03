@@ -4,7 +4,7 @@ const nextConfig = {
     serverComponentsExternalPackages: ["mongoose"],
   },
   images: {
-    domains: ["utfs.io"],
+    domains: ["utfs.io", "cdn-icons-png.flaticon.com"],
   },
 };
 

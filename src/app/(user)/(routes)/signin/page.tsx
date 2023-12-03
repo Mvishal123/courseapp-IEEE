@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { useSession, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const Signin = () => {
   const router = useRouter();
@@ -47,14 +48,14 @@ const Signin = () => {
                 }}
               >
                 <span>Google</span>
-                <img src="google.svg" alt="" className="w-4" />
+                <Image src="google.svg" alt="google" width={20} height={20} />
               </Button>
               <Button
                 className="space-x-2 border border-black/10 bg-transparent"
                 variant={"secondary"}
               >
                 <span>GitHub</span>
-                <img src="github.svg" alt="" className="w-5" />
+                <Image src="github.svg" alt="google" width={25} height={25} />
               </Button>
             </div>
             <br />
@@ -85,7 +86,7 @@ const Signin = () => {
             <div className="flex justify-center">
               <div className="mt-10 text-center text-purple-950">
                 <Link className="text-sm" href="/signup">
-                  Don't have an account?
+                  Don&apos;t have an account?
                 </Link>
                 <Button
                   className="w-72 bg-gradient-to-r from-[#7b2cbf] to-indigo-400 rounded-md text-white px-3 py-1"
