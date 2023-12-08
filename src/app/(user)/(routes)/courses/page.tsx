@@ -1,12 +1,8 @@
-import { CourseData } from "@/types";
 import CourseCard from "@/components/CourseCard";
-import { BASE_URL } from "@/config";
+
 import CoursesCategorySlider from "../../_components/CoursesCategorySlider";
 import { Course, CourseCategory, User } from "@/models";
 import Searchbar from "@/components/user/header/Searchbar";
-import { getServerSession } from "next-auth";
-import { handler } from "@/app/api/auth/[...nextauth]/route";
-import { LoaderIcon } from "react-hot-toast";
 
 interface SearchParamsProps {
   searchParams: {

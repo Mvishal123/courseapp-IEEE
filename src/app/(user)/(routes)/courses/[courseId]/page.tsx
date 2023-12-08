@@ -11,6 +11,7 @@ import React from "react";
 
 const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
   const session = await getServerSession(handler);
+  console.log("ID", params.courseId);
 
   const course = await Course.findOne({ _id: params.courseId }).populate(
     "chapters"

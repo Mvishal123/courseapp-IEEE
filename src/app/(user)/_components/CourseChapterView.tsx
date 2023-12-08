@@ -46,7 +46,7 @@ const CourseChapterView = ({ chapters }: Chapters) => {
             <CollapsibleContent>
               <div
                 className="p-2 border md:w-1/2 w-full rounded-sm"
-                dangerouslySetInnerHTML={{ __html: chapter.description }}
+                dangerouslySetInnerHTML={{ __html: `<p>${chapter.description}</p>`}}
               />
             </CollapsibleContent>
           </Collapsible>
