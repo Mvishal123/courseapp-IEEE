@@ -1,6 +1,6 @@
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import { connectDb } from "@/lib/db";
-import { Course, StripeCustomer, User } from "@/models";
+import { Course, Purchases, StripeCustomer, User } from "@/models";
 import { getServerSession } from "next-auth";
 import { NextResponse, NextRequest } from "next/server";
 import stripe from "@/lib/stripe";
@@ -40,6 +40,14 @@ export async function POST(
         { status: 200 }
       );
     }
+    const purchases = await new Purchases({
+      userId: user._id,
+      courseId: course._id,
+    });
+    purchases.save();
+
+    user.mycourses.push(params.courseId);
+    user.save();
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
@@ -61,6 +69,8 @@ export async function POST(
       const customer = await stripe.customers.create({
         email: user.email,
       });
+
+      console.log("cuustomer: ", customer);
 
       await new StripeCustomer({
         userId: user._id,

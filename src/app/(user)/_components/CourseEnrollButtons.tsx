@@ -10,14 +10,15 @@ interface props {
 }
 
 const CourseEnrollButtons = ({ courseId }: props) => {
-    console.log("courseIdhahah: ", courseId);
+
     
   const [loading, setLoading] = useState(false);
   const onEnroll = async () => {
     try {
       setLoading(true);
       const res = await axios.post(`/api/courses/${courseId}/checkout`);
-      window.location.assign(res.data.url);
+      window.location.assign(`/courses/${courseId}`);
+
     } catch (error: any) {
       toast.error("Something went wrong");
     } finally {
