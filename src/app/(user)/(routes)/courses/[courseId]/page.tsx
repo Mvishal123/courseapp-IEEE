@@ -59,8 +59,8 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
                   className="rounded-md"
                 />
               </div>
-              <div className="absolute pt-4 flex justify-between w-full">
-                <Button className="bg-purple-600">Enroll now</Button>
+              <div className="absolute pt-4 flex flex-col gap-2 justify-between w-full">
+                <Button>Enroll now</Button>
                 <Button variant={"secondary"}>Add to cart</Button>
               </div>
             </div>
@@ -78,6 +78,10 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
             alt="course image"
             className="rounded-md"
           />
+        </div>
+        <div className="pt-4 flex flex-col gap-2 justify-between w-full">
+          <Button>Enroll now</Button>
+          <Button variant={"secondary"}>Add to cart</Button>
         </div>
       </div>
 
