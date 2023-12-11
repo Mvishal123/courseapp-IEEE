@@ -1,23 +1,22 @@
 import CourseChapterView from "@/app/(user)/_components/CourseChapterView";
+import CourseEnrollButtons from "@/app/(user)/_components/CourseEnrollButtons";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { currencyConverter } from "@/helper/currencyConverter";
 import { Course } from "@/models";
 import { Rating } from "@mui/material";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import React from "react";
 
 const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
   const session = await getServerSession(handler);
-  console.log("ID", params.courseId);
 
   const course = await Course.findOne({ _id: params.courseId }).populate(
     "chapters"
   );
 
   const numberReviews = course?.reviews.length;
+  
 
   return (
     <div>
@@ -59,10 +58,7 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
                   className="rounded-md"
                 />
               </div>
-              <div className="absolute pt-4 flex flex-col gap-2 justify-between w-full">
-                <Button>Enroll now</Button>
-                <Button variant={"secondary"}>Add to cart</Button>
-              </div>
+              <CourseEnrollButtons courseId={params.courseId} />
             </div>
           </div>
         </div>
@@ -80,8 +76,7 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
           />
         </div>
         <div className="pt-4 flex flex-col gap-2 justify-between w-full">
-          <Button>Enroll now</Button>
-          <Button variant={"secondary"}>Add to cart</Button>
+          <CourseEnrollButtons courseId={params.courseId} />
         </div>
       </div>
 

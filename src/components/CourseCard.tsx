@@ -21,7 +21,6 @@ const CourseCard = ({ data }: CourseCardProps) => {
   // const starCount = data.stars.length !== 0 ?
   const router = useRouter();
   const { image, title, price, teacher, _id, category } = data;
-  console.log("ID", _id);
   
   return (
     <div className="w-full border p-2 rounded-md hover:shadow-sm cursor-pointer" onClick={() => router.push(`/courses/${_id}`)}>
