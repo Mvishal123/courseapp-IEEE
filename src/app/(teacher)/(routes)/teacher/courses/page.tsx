@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { handler } from "@/app/api/auth/[...nextauth]/route";
 import CourseTable from "./_components/CourseTable";
 import { redirect } from "next/navigation";
+import { connectDb } from "@/lib/db";
+
+connectDb();
 
 const CoursePage = async () => {
   const session = await getServerSession(handler);
