@@ -26,13 +26,25 @@ const CourseEnrollButtons = ({ courseId, email }: props) => {
     }
   };
 
+  const onAddCart = async () => {
+    try {
+      const res = await axios.post(`/api/courses/${courseId}/cart`);
+      toast.success("Added to cart");
+    } catch (error: any) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="absolute pt-4 flex flex-col gap-2 justify-between w-full">
       <Button disabled={loading} onClick={onEnroll}>
         Enroll now
       </Button>
-      <Button variant={"secondary"}>Add to cart</Button>
+      <Button variant={"secondary"} onClick={onAddCart}>
+        Add to cart
+      </Button>
     </div>
   );
 };

@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import RecoilProvider from "@/components/providers/RecoilProvider";
 import AuthProvider from "@/components/providers/SessionProvider";
 import ToastProvider from "@/components/providers/ToastProvider";
+import { connectDb } from "@/lib/db";
+
+connectDb();
 
 export const metadata: Metadata = {
   title: "Create Next App",
