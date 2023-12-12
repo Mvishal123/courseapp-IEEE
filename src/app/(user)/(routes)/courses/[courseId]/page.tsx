@@ -16,7 +16,6 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
   );
 
   const numberReviews = course?.reviews.length;
-  
 
   return (
     <div>
@@ -58,7 +57,10 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
                   className="rounded-md"
                 />
               </div>
-              <CourseEnrollButtons courseId={params.courseId} />
+              <CourseEnrollButtons
+                courseId={params.courseId}
+                email={session?.user.email}
+              />
             </div>
           </div>
         </div>
@@ -76,7 +78,10 @@ const CourseViewPage = async ({ params }: { params: { courseId: string } }) => {
           />
         </div>
         <div className="pt-4 flex flex-col gap-2 justify-between w-full">
-          <CourseEnrollButtons courseId={params.courseId} />
+          <CourseEnrollButtons
+            courseId={params.courseId}
+            email={session?.user.email}
+          />
         </div>
       </div>
 

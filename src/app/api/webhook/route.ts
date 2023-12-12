@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import stripe from "@/lib/stripe";
 import { connectDb } from "@/lib/db";
-import { User } from "@/models";
+import { Purchases, User } from "@/models";
 
 connectDb();
 
@@ -38,6 +38,12 @@ export async function POST(req: NextRequest) {
     }
     const user = await User.findOne({ _id: userId });
     user.mycourses.push(courseId);
+    user.save();
+
+    const purchases = new Purchases({
+      userId,
+      courseId,
+    }).save();
   } else {
     return NextResponse.json(
       `Webhook Error: Invalid event type ${event.type}`,

@@ -3,6 +3,7 @@ import CourseCard from "@/components/CourseCard";
 import CoursesCategorySlider from "../../_components/CoursesCategorySlider";
 import { Course, CourseCategory, User } from "@/models";
 import Searchbar from "@/components/user/header/Searchbar";
+import { connectDb } from "@/lib/db";
 
 interface SearchParamsProps {
   searchParams: {
@@ -16,6 +17,8 @@ interface query {
   title?: Object;
   category?: string;
 }
+
+connectDb();
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   let query: query = {

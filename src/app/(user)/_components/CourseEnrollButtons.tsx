@@ -1,30 +1,31 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { connectDb } from "@/lib/db";
+import { User } from "@/models";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 interface props {
   courseId: string;
+  email: string;
 }
 
-const CourseEnrollButtons = ({ courseId }: props) => {
-
-    
+const CourseEnrollButtons = ({ courseId, email }: props) => {
   const [loading, setLoading] = useState(false);
   const onEnroll = async () => {
     try {
       setLoading(true);
       const res = await axios.post(`/api/courses/${courseId}/checkout`);
-      window.location.assign(`/courses/${courseId}`);
-
+      // window.location.assign(`/courses/${courseId}`);
     } catch (error: any) {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="absolute pt-4 flex flex-col gap-2 justify-between w-full">

@@ -40,14 +40,6 @@ export async function POST(
         { status: 200 }
       );
     }
-    const purchases = await new Purchases({
-      userId: user._id,
-      courseId: course._id,
-    });
-    purchases.save();
-
-    user.mycourses.push(params.courseId);
-    user.save();
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
@@ -63,18 +55,18 @@ export async function POST(
       },
     ];
 
-    const stripeCustomer = await StripeCustomer.findOne({ userId: user._id });
+    let stripeCustomer = await StripeCustomer.findOne({ userId: user._id });
 
     if (!stripeCustomer) {
-      const customer = await stripe.customers.create({
+      stripeCustomer = await stripe.customers.create({
         email: user.email,
       });
 
-      console.log("cuustomer: ", customer);
+      console.log("cuustomer: ", stripeCustomer);
 
       await new StripeCustomer({
         userId: user._id,
-        stripeCustomerId: customer.id,
+        stripeCustomerId: stripeCustomer.id,
       }).save(); // Save the new instance to the database
     }
 
@@ -89,6 +81,15 @@ export async function POST(
         userId: user._id,
       },
     });
+
+    // const purchases = await new Purchases({
+    //   userId: user._id,
+    //   courseId: course._id,
+    // });
+    // purchases.save();
+
+    // user.mycourses.push(params.courseId);
+    // user.save();
 
     return NextResponse.json({ sessionId: stripeSession.id });
   } catch (error: any) {
